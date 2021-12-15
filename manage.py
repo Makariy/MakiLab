@@ -1,20 +1,15 @@
-import argparse
-import sys
+import os, sys
+from arg_parser import main_parser, runserver_parser, create_app_parser
 from src.server import run_app
 import config
 
 
-parser = argparse.ArgumentParser(description='Manage.py deployment tool')
-parser.add_argument('file', type=str, help='Command to execute')
-parser.add_argument('command', type=str, help='Command to execute')
-parser.add_argument('-H', type=str, help='Specify the host to run the server')
-parser.add_argument('-p', type=int, help='Specify the port to run the server')
-parser.add_argument('-w', type=int, help='Specify the number of workers to use')
-
-
 def main(args):
     """This function is starting and configuring the hole sanic application"""
+    args, extra = args
+
     if args.command == 'runserver':
+        args = runserver_parser.parse_args(extra)
         run_app(
             host=args.H or 'localhost',
             port=args.p or 8000,
@@ -22,7 +17,12 @@ def main(args):
             config=config
         )
 
+    if args.command == 'createapp':
+        args = create_app_parser.parse_args(extra)
+        raise NotImplemented()
+
 
 if __name__ == '__main__':
-    arguments = parser.parse_args(sys.argv)
+    os.environ.setdefault('SANIC_APP_NAME', os.environ.get('SANIC_APP_NAME') or 'sanic_application')
+    arguments = main_parser.parse_known_args(sys.argv)
     main(arguments)

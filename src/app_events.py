@@ -6,7 +6,7 @@ import tortoise
 async def init_db_before_server_start(app: Sanic, loop):
     db_name = os.environ.get('DATABASE_NAME') or 'crypt'
     db_user = os.environ.get('DATABASE_USER') or 'postgres'
-    db_password = os.environ.get('DATABASE_USER_PASSWORD') or 'Kariy123'
+    db_password = os.environ.get('DATABASE_PASSWORD') or 'Kariy123'
     db_host = os.environ.get('DATABASE_HOST') or 'localhost'
     db_port = os.environ.get('DATABASE_PORT') or '5432'
 
