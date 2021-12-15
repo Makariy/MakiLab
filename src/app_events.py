@@ -4,14 +4,9 @@ import tortoise
 
 
 async def init_db_before_server_start(app: Sanic, loop):
-    db_name = os.environ.get('DATABASE_NAME') or 'crypt'
-    db_user = os.environ.get('DATABASE_USER') or 'postgres'
-    db_password = os.environ.get('DATABASE_PASSWORD') or 'Kariy123'
-    db_host = os.environ.get('DATABASE_HOST') or 'localhost'
-    db_port = os.environ.get('DATABASE_PORT') or '5432'
-
+    config = app.ctx.config
     await tortoise.Tortoise.init(
-        db_url=f'postgres://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}',
+        db_url=f'postgres://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}',
         modules={
             'models': [f'{app}.models' for app in app.ctx.config.INSTALLED_APPS]
         }
@@ -20,5 +15,7 @@ async def init_db_before_server_start(app: Sanic, loop):
 
 
 app_events = {
-    'before_server_start': [init_db_before_server_start]
+    'before_server_start': [init_db_before_server_start],
+    'after_server_start': [],
+    'main_process_start': [],
 }
