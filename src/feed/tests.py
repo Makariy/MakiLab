@@ -8,6 +8,5 @@ class TestDBServices(TestCase):
         await super().startUp()
 
     async def test_i_can_print(self):
-        print(self.user.uuid)
         self.assertEquals(self.user, await User.get(id=self.user.id), msg=f'User with {self.user.id} was not created')
         self.assertTrue(True, msg='This is just to test')

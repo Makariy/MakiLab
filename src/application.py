@@ -3,6 +3,7 @@ from sanic import Sanic
 
 
 def _init_app(app, config):
+    """Initializes the application"""
     app.ctx.config = config
 
     for event in config.app_events:
@@ -15,6 +16,7 @@ def _init_app(app, config):
 
 
 def run_app(host='localhost', port=8000, workers=1, config=None):
+    """Runs the application"""
     _app = Sanic(os.environ.get('SANIC_APP_NAME'))
     _init_app(_app, config)
     _app.run(host=host, port=port, workers=workers)

@@ -33,7 +33,6 @@ def main(args):
             return
 
         args = test_parser.parse_args(extra)
-
         tester = Tester()
         tester.run(run_app, config, args)
 
