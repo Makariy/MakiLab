@@ -1,3 +1,7 @@
+import os
+from aiohttp.client import ClientSession
+from sanic import Sanic
+
 
 class TestFailedException(Exception):
     def __init__(self, msg=''):

@@ -1,5 +1,6 @@
 import os
 from jinja2 import Environment, FileSystemLoader
+from src.app_events import init_db_before_server_start
 
 
 template_loader = Environment(
@@ -10,6 +11,14 @@ template_loader = Environment(
 INSTALLED_APPS = [
     'src.feed',
 ]
+
+
+app_events = {
+    'before_server_start': [init_db_before_server_start],
+    'after_server_start': [],
+    'main_process_start': [],
+}
+
 
 DB_NAME = os.environ.get('DATABASE_NAME') or 'crypt'
 DB_USER = os.environ.get('DATABASE_USER') or 'postgres'

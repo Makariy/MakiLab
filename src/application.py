@@ -5,13 +5,12 @@ from sanic import Sanic
 def _init_app(app, config):
     app.ctx.config = config
 
-    from .app_events import app_events
-    for event in app_events:
-        for event_handler in app_events[event]:
+    for event in config.app_events:
+        for event_handler in config.app_events[event]:
             app.register_listener(event_handler, event)
 
-    from .urls import blue_print_patterns
-    for blueprint in blue_print_patterns:
+    from .blueprint_routes import blue_print_routes
+    for blueprint in blue_print_routes:
         app.blueprint(blueprint)
 
 

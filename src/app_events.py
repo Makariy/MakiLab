@@ -12,10 +12,3 @@ async def init_db_before_server_start(app: Sanic, loop):
         }
     )
     await tortoise.Tortoise.generate_schemas()
-
-
-app_events = {
-    'before_server_start': [init_db_before_server_start],
-    'after_server_start': [],
-    'main_process_start': [],
-}

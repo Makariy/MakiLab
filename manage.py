@@ -1,9 +1,12 @@
 import os
 import sys
-from lib.arg_parser import main_parser, runserver_parser, create_app_parser
-from lib.run_test import Tester
+from lib.arg_parser import main_parser, \
+    runserver_parser, \
+    create_app_parser, \
+    test_parser
+from lib.tester import Tester
 
-from src.server import run_app
+from src.application import run_app
 import config
 
 
@@ -12,6 +15,10 @@ def main(args):
     args, extra = args
 
     if args.command == 'runserver':
+        if 'help' in extra:
+            runserver_parser.print_help()
+            return
+
         args = runserver_parser.parse_args(extra)
         run_app(
             host=args.H or 'localhost',
@@ -21,16 +28,19 @@ def main(args):
         )
 
     elif args.command == 'test':
-        args = runserver_parser.parse_args(extra)
-        config.DB_NAME = 'test_' + config.DB_NAME
+        if 'help' in extra:
+            test_parser.print_help()
+            return
+
+        args = test_parser.parse_args(extra)
 
         tester = Tester()
-
-        from src.app_events import app_events
-        app_events['before_server_start'].append(tester.run_all_tests)
-        run_app('localhost', 8000, 1, config)
+        tester.run(run_app, config, args)
 
     elif args.command == 'createapp':
+        if 'help' in extra:
+            create_app_parser.print_help()
+            return
         args = create_app_parser.parse_args(extra)
         raise NotImplemented()
 
