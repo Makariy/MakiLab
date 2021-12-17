@@ -11,8 +11,8 @@ def _init_app(app, config):
             app.register_listener(event_handler, event)
 
     from .blueprint_routes import blue_print_routes
-    for blueprint in blue_print_routes:
-        app.blueprint(blueprint)
+    for blueprint_getter in blue_print_routes:
+        app.blueprint(blueprint_getter())
 
 
 def run_app(host='localhost', port=8000, workers=1, config=None):

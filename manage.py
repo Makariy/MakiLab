@@ -5,6 +5,7 @@ from lib.arg_parser import main_parser, \
     create_app_parser, \
     test_parser
 from lib.tester import Tester
+from lib.create_app import create_app
 
 from src.application import run_app
 import config
@@ -41,7 +42,7 @@ def main(args):
             create_app_parser.print_help()
             return
         args = create_app_parser.parse_args(extra)
-        raise NotImplemented()
+        create_app(args.title)
 
 
 if __name__ == '__main__':

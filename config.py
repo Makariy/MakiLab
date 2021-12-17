@@ -9,6 +9,7 @@ template_loader = Environment(
 )
 
 INSTALLED_APPS = [
+
     'src.feed',
 ]
 

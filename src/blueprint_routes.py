@@ -1,7 +1,7 @@
-from .feed.app import bp as feed_blueprint
+from .feed.app import get_blueprint as feed_get_blueprint
 
 
 blue_print_routes = [
-    feed_blueprint,
+    feed_get_blueprint,
 
 ]

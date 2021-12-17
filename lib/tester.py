@@ -1,6 +1,8 @@
 import importlib
-from lib.test import TestCase
 from sanic import Sanic
+from tortoise import Model
+
+from lib.test import TestCase
 from src.feed.models import *
 
 
@@ -29,14 +31,17 @@ class Tester:
     def get_module_classes_by_base_class(self, module_name, base):
         """Runs all the module test classes"""
         ret = []
-        module = importlib.import_module(module_name)
-        for cls in dir(module):
-            obj = getattr(module, cls)
-            try:
-                if issubclass(obj, base):
-                    ret.append(obj)
-            except TypeError:
-                pass
+        try:
+            module = importlib.import_module(module_name)
+            for cls in dir(module):
+                obj = getattr(module, cls)
+                try:
+                    if issubclass(obj, base):
+                        ret.append(obj)
+                except TypeError:
+                    pass
+        except ImportError:
+            pass
         return ret
 
     async def _run_all_tests(self, app):
