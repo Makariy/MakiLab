@@ -1,5 +1,4 @@
 import os
-from aiohttp.client import ClientSession
 from sanic import Sanic
 
 
@@ -9,7 +8,7 @@ class TestFailedException(Exception):
 
 
 class TestCase:
-    async def startUp(self):
+    async def setUp(self):
         """Initialize all the class variables"""
         pass
 

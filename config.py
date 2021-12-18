@@ -9,10 +9,10 @@ template_loader = Environment(
 )
 
 INSTALLED_APPS = [
-
     'src.feed',
 ]
 
+TESTING = False
 
 app_events = {
     'before_server_start': [init_db_before_server_start],
@@ -27,3 +27,4 @@ DB_PASSWORD = os.environ.get('DATABASE_PASSWORD') or 'Kariy123'
 DB_HOST = os.environ.get('DATABASE_HOST') or 'localhost'
 DB_PORT = os.environ.get('DATABASE_PORT') or '5432'
 
+MEDIA_LOADER_URL = os.environ.get('MEDIA_LOADER_URL') or 'http://192.168.1.144:9000'

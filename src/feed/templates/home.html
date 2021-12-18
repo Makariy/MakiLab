@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AdultSite</title>
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/home.css">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&family=Roboto&family=Source+Sans+Pro&family=Ubuntu&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Caramel&family=Cookie&family=Fleur+De+Leah&family=Great+Vibes&family=Italianno&display=swap" rel="stylesheet">
+</head>
+<body>
+	
+	<section class="menu-section">
+		<div class="container">
+			<div class="menu">
+				
+				<div class="menu__logo">
+					<a href="/" class="menu__logo-link">
+						Maki<span>Lab</span>
+					</a>
+				</div>
+
+				<div class="menu__list">
+					<ul class="menu__list_ul">
+						<li class="menu__list_ul_li">
+							<a href="#" class="menu__list_ul_li-link">
+								Category
+							</a>
+						</li>
+						<li class="menu__list_ul_li">
+							<a href="#" class="menu__list_ul_li-link">
+								Top
+							</a>
+						</li>
+						<li class="menu__list_ul_li">
+							<a href="#" class="menu__list_ul_li-link">
+								Actors
+							</a>
+						</li>
+						<li class="menu__list_ul_li">
+							<a href="#" class="menu__list_ul_li-link">
+								Help
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="menu__account">
+					<div class="menu__account_login">
+						<a href="#" class="menu__account_login-link">
+							Login
+						</a>
+					</div>
+				</div>
+
+
+
+				<div class="menu__hide">
+					<button onclick="menu_top_clicked()" class="menu__hide_button">
+						<div class="menu__hide_button-stick"></div>
+						<div class="menu__hide_button-stick"></div>
+						<div class="menu__hide_button-stick"></div>
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>	
+	<section class="mobile-top-section">
+		<div class="container">
+			<div class="mobile-top">
+				
+				<div class="menu__hide">
+					<button onclick="menu_top_clicked()" class="menu__hide_button">
+						<div class="menu__hide_button-stick"></div>
+						<div class="menu__hide_button-stick"></div>
+						<div class="menu__hide_button-stick"></div>
+					</button>
+				</div>
+
+				<div class="menu__logo">
+					<a href="/" class="menu__logo-link">
+						Maki<span>Lab</span>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+	<section class="videos-section">
+		<div class="container">
+			<div class="videos">
+				{% for preview in previews %}
+				<a class="videos__video" href="/video?id={{ preview[1].id }}&page={{ page }}">
+					<img src="video_preview?id={{ preview[0].id }}" alt=".!." class="videos__video_img">
+					<div class="videos__video_text">
+						<h3 class="videos__video_text-title">
+							{{ preview[1].title|truncate(80) }}
+						</h3>
+						<p class="videos__video_text-text">
+							{% if preview[1].description %}
+							{{ preview[1].description|truncate(60) }}
+							{% else %}
+							Author doesn't provide any description for this video
+							{% endif %}
+						</p>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<section class="next-videos_section">
+		<div class="container">
+			<div class="next-videos-selection">
+				{% if past_page %}<a href="/?page={{ past_page }}" class="next-videos-selection--left"><</a>{% endif %}
+				{% if next_page %}<a href="/?page={{ next_page }}" class="next-videos-selection--right">></a>{% endif %}
+			</div>
+		</div>
+	</section>
+
+	<section class="footer-section">
+		<div class="container">
+			<div class="footer">
+
+				<div class="footer__links">
+					<ul class="footer__links_ul">
+						<li class="footer__links_ul_li">
+							<a href="#" class="footer__links_ul_li-link">
+								<img src="/static/media/instagram.svg" alt="" class="footer__links_ul_li-link--img">
+							</a>
+						</li>
+						<li class="footer__links_ul_li">
+							<a href="#" class="footer__links_ul_li-link">
+								<img src="/static/media/youtube.svg" alt="" class="footer__links_ul_li-link--img">
+							</a>
+						</li>
+						<li class="footer__links_ul_li">
+							<a href="#" class="footer__links_ul_li-link">
+								<img src="/static/media/vk.svg" alt="" class="footer__links_ul_li-link--img">
+							</a>
+						</li>
+						<li class="footer__links_ul_li">
+							<a href="#" class="footer__links_ul_li-link">
+								<img src="/static/media/facebook.svg" alt="" class="footer__links_ul_li-link--img">
+							</a>
+						</li>
+					</ul>
+				</div>	
+				<div class="footer__authors">
+					<div class="footer__authors_author">
+						<div class="footer__authors_author_title footer__authors_author_makariy">
+							Makariy Corp.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript">
+
+		function menu_top_clicked() {
+			var menu = $('.menu-section');
+			if (menu.hasClass('active')){
+				$('body')[0].style['overflow-y'] = 'scroll';
+				menu.removeClass('active');
+			}
+			else {
+				$('body')[0].style['overflow-y'] = 'hidden';
+				menu.addClass('active');
+			}
+		}
+	
+	</script>
+</html>

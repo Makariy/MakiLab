@@ -5,4 +5,4 @@ Application pattern:
 
     [Optionally]
 - routes.py - contains the blueprint and initializes the routes on it 
-- services/ - contains the services that the application uses 
+- services/ - a directory that contains the services that the application uses 
