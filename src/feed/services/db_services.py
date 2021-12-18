@@ -65,11 +65,11 @@ async def get_feed_post_like_by_post_and_author(feed_post: FeedPost, like_author
 async def get_last_feed_posts(author_id: User, start_post_id: FeedPost = None, count=10):
     """Returns last <count> posts <src.feed.models.FeedPost> whose author_id is <author_id>
     starting after feed_post <start_feed>"""
-    last_feed_posts = FeedPost.filter(author__id=author_id).order_by('-id')
+    last_feed_posts = FeedPost.filter(author__id=author_id).order_by('-id').limit(count)
     if start_post_id:
-        return await last_feed_posts.filter(id__lt=start_post_id)[:count]
+        return await last_feed_posts.filter(id__lt=start_post_id)
     else:
-        return await last_feed_posts[:count]
+        return await last_feed_posts
 
 
 async def get_user_by_params(**params):
