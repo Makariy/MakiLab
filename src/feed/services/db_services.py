@@ -65,20 +65,14 @@ async def get_feed_post_like_by_post_and_author(feed_post: FeedPost, like_author
 async def get_last_feed_posts(author_id: User, start_post_id: FeedPost = None, count=10):
     """Returns last <count> posts <src.feed.models.FeedPost> whose author_id is <author_id>
     starting after feed_post <start_feed>"""
-    last_feed_posts = FeedPost.filter(author__id=author_id).order_by('-id').limit(count)
+    last_feed_posts = FeedPost.filter(author__id=author_id).order_by('-id').limit(count)\
+        .select_related('author').prefetch_related('images', 'comments__author')
     if start_post_id:
         return await last_feed_posts.filter(id__lt=start_post_id)
     else:
         return await last_feed_posts
 
 
-async def get_user_by_params(**params):
-    """Returns user <src.feed.models.User> that suites the params,
-    if user does not exist, returns None"""
-    try:
-        return await User.get(**params)
-    except DoesNotExist:
-        return None
 
 
 """
@@ -142,8 +136,7 @@ async def create_feed_post_comment(comment_author: User, text: str):
 async def add_like_to_feed_post(post: FeedPost, like_author: User):
     """Adds like to the post <feed.models.FeedPost>"""
     if not await has_user_liked_feed_post(post, like_author):
-        like = FeedPostLike(author=like_author)
-        await like.save()
+        like = await FeedPostLike.create(author=like_author)
         await post.likes.add(like)
         await post.save()
         return True

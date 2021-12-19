@@ -2,6 +2,7 @@ from src.feed import bp, loader
 from sanic.response import json, html
 from .services.db_services import *
 from .json_services import *
+from lib.sessions import SessionCreator
 
 
 @bp.route('/')
@@ -26,3 +27,39 @@ async def get_last_feed_posts_view(request):
                 return json(await render_feed_posts(last_feed_posts))
 
     return json({'status': 'fail'})
+
+
+# Only on custom session mechanism test
+@bp.route('login/')
+async def login(request):
+    get_args = request.get_args()
+    username = get_args.get('username')
+    password = get_args.get('password')
+    if username and password:
+        user = await User.get(username=username)
+        if await user.compare_password(password):
+            return json({
+                'status': 'success',
+                'token': await SessionCreator.create_session(user)
+            })
+    return json({'status': 'fail'})
+
+
+# Only on custom sessions mechanism test
+@bp.route('info/')
+async def info(request):
+    get_args = request.get_args()
+    token = get_args.get('token')
+    if token:
+        user = await SessionCreator.get_user_by_token(token)
+        return json({
+            'status': 'success',
+            'user': {
+                'username': user.username,
+                'password': user.password,
+                'uuid': str(user.uuid),
+                'id': user.id,
+            }
+        })
+    return json({'status': 'fail'})
+

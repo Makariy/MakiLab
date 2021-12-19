@@ -72,7 +72,7 @@ class Tester:
 
     async def clean_up(self):
         """Cleans up the database after testing"""
-        for module in self.config.INSTALLED_APPS:
+        for module in [*self.config.INSTALLED_APPS, 'lib']:
             classes = self._get_module_classes_by_base_class(f'{module}.models', Model)
             for cls in classes:
                 if cls not in (BaseModel, Model):
