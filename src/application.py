@@ -6,6 +6,10 @@ def _init_app(app, config):
     """Initializes the application"""
     app.ctx.config = config
 
+    # Initialize sessions in the application
+    from sanic_session import Session, InMemorySessionInterface
+    Session(app, interface=InMemorySessionInterface())
+
     for event in config.app_events:
         for event_handler in config.app_events[event]:
             app.register_listener(event_handler, event)

@@ -1,8 +1,12 @@
-from src.feed import bp, loader
 from sanic.response import json, html
+
+from lib.services import get_user_by_params, login_user
+from lib.decorators import login_required, redirect_if_logged, csrf_protect
+
 from .services.db_services import *
 from .json_services import *
-from lib.sessions import SessionCreator
+
+from . import bp, loader
 
 
 @bp.route('/')
@@ -29,37 +33,54 @@ async def get_last_feed_posts_view(request):
     return json({'status': 'fail'})
 
 
-# Only on custom session mechanism test
-@bp.route('login/')
+# Just to test
+@bp.post('login/')
+@redirect_if_logged('/')
 async def login(request):
-    get_args = request.get_args()
-    username = get_args.get('username')
-    password = get_args.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
     if username and password:
-        user = await User.get(username=username)
-        if await user.compare_password(password):
-            return json({
-                'status': 'success',
-                'token': await SessionCreator.create_session(user)
-            })
+        user = await get_user_by_params(username=username)
+        if user and await user.compare_password(password):
+            await login_user(request, user)
+            return json({'status': 'success'})
+
     return json({'status': 'fail'})
 
 
-# Only on custom sessions mechanism test
-@bp.route('info/')
+# Just to test
+@bp.route('logout/', methods=['GET', 'POST'])
+@csrf_protect
+async def logout(request):
+    if request.method == 'POST':
+        code = request.form.get('code')
+        return json({'status': 'success', 'code': code})
+
+    else:
+        csrf = request.ctx.csrf_token
+        return html(f"""
+            <form method='POST'>
+                <input name='csrfmiddlewaretoken' value='{csrf}'/>
+                <input name='code' type='text'/>
+            </form>
+        """)
+
+
+# Just to test
+@bp.get('info/')
+@login_required
 async def info(request):
-    get_args = request.get_args()
-    token = get_args.get('token')
-    if token:
-        user = await SessionCreator.get_user_by_token(token)
+    user_id = request.ctx.session.get('user_id')
+    if user_id:
+        user = await get_user_by_params(id=user_id)
         return json({
             'status': 'success',
             'user': {
                 'username': user.username,
                 'password': user.password,
                 'uuid': str(user.uuid),
-                'id': user.id,
             }
         })
-    return json({'status': 'fail'})
 
+    return json({'status': 'fail'})
