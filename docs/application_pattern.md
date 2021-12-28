@@ -1,8 +1,8 @@
 Application pattern:
-- tests.py - contains the tests to run in the application
+- tests/* - contains the tests to run in the application
+- routes.py - contains the blueprint and initializes the routes on it
 - models.py - contains the models that it uses
-- app.py - must contain the function <get_blueprint> that returns the blueprint that will be used in blueprint_patterns
+- app.py - must contain a blueprint < bp > that will be used in application routes and general blueprint_patterns 
 
-    [Optionally]
-- routes.py - contains the blueprint and initializes the routes on it 
+  [Optionally]
 - services/ - a directory that contains the services that the application uses 

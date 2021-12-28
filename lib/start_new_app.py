@@ -2,7 +2,7 @@ import os
 import config
 
 
-def create_app(app_name):
+def start_new_app(app_name):
     """Creates the application with specified name <app_name>.
     Raises RuntimeError if the application with this name already exists"""
     app_dir = f'src/{app_name}'

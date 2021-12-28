@@ -6,7 +6,10 @@ from lib.decorators import login_required, redirect_if_logged, csrf_protect
 from .services.db_services import *
 from .json_services import *
 
-from . import bp, loader
+from . import bp, get_template_loader
+
+
+loader = get_template_loader()
 
 
 @bp.route('/')

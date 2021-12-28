@@ -3,11 +3,12 @@ from typing import BinaryIO, Tuple
 from tortoise.exceptions import DoesNotExist
 
 from lib.models import User
-from src.feed import application
+from src.feed import get_application
 from src.feed.models import *
 from .remote_services import *
 
 
+application = get_application()
 config = application.ctx.config
 
 

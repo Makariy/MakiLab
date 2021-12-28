@@ -1,10 +1,11 @@
 from typing import BinaryIO, Union
 import requests
 
-from src.feed import application
+from src.feed import get_application
 from src.feed.models import FeedPostImage
 
 
+application = get_application()
 config = application.ctx.config
 
 
