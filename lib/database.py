@@ -1,5 +1,4 @@
 import importlib
-import os
 from sanic import Sanic
 import tortoise
 
@@ -16,7 +15,7 @@ async def init_database(app: Sanic, loop):
         models_packages.append(f'{app}.models')
 
     await tortoise.Tortoise.init(
-        db_url=f'postgres://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}',
+        db_url=f'postgres://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}?minsize=2&maxsize=10',
         modules={
             'models': models_packages,
         }

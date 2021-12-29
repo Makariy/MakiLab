@@ -1,12 +1,11 @@
 from typing import BinaryIO, Union
 import requests
 
-from src.feed import get_application
+from src import get_config
 from src.feed.models import FeedPostImage
 
 
-application = get_application()
-config = application.ctx.config
+config = get_config()
 
 
 async def save_feed_post_image_to_remote_server(image_reader: BinaryIO, feed_post_image: FeedPostImage)\
