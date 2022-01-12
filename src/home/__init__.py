@@ -1,4 +1,3 @@
-from sanic import Blueprint
-
+from sanic import Blueprint 
 
 bp = Blueprint(__package__)

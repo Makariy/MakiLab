@@ -54,12 +54,13 @@ class Tester:
         from lib.database import init_database
         await init_database(self.app, None)
 
-        for app in self.config.INSTALLED_APPS:
-            await self._run_module_test_classes(app + '.tests')
-            print(f'All {app} tests are completed without any error')
-
-        # Clean up
-        await self.clean_up()
+        try:
+            for app in self.config.INSTALLED_APPS:
+                await self._run_module_test_classes(app + '.tests')
+                print(f'All {app} tests are completed without any error')
+        finally:
+            # Clean up
+            await self.clean_up()
 
     async def clean_up(self):
         """Cleans up the database after testing"""

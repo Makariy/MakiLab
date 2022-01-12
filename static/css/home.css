@@ -1,0 +1,82 @@
+/*
+	Text color 			#ffffff
+	Elements color 		#ad0c6f
+	Sections color 		#171717
+	Background color 	#000000
+
+
+	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Ubuntu', sans-serif
+
+	I need to paste it somewhere: 
+	font-family: 'Fleur De Leah', cursive;
+	font-family: 'Italianno', cursive;
+*/
+
+
+/*
+	----------------------------------------
+				  	  Videos
+	----------------------------------------
+*/
+
+.videos {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin-top: 20px;
+}
+.videos__video {
+	margin-bottom: 45px;
+	width: 300px;
+}
+
+
+
+.videos__video_img {
+    height: 170px;
+    width: 300px;
+}
+.videos__video_text-title {
+	font-family: 'Ubuntu', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    transform: scaleX(1.05);
+    width: fit-content;
+    margin-top: 7px;
+}
+.videos__video_text-text {
+	font-family: 'Source Sans Pro', sans-serif;  
+	font-size: 15px;
+	margin-top: 5px;
+}
+
+
+
+
+/*
+	----------------------------------------
+                    NEXT-VIDEOS
+	----------------------------------------
+*/
+
+.next-videos-selection {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    font-size: 24px;
+}
+.next-videos-selection--right {
+    margin-left: 20px;
+}
+
+
+
+
+
+
+

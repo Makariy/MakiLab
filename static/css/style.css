@@ -1,0 +1,262 @@
+/*
+	Text color 			#ffffff
+	Elements color 		#ad0c6f
+	Sections color 		#171717
+	Background color 	#000000
+*/
+
+
+
+body {
+	width: 100vw;
+	margin: 0;
+	background-color: #000000;
+	color: #ffffff;
+	overflow-x: hidden;
+}
+
+a {
+	outline: none;
+	text-decoration: none;
+	color: inherit;
+}
+
+h1,h2,h3,h4,p {
+	margin: 0;
+}
+
+li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+button {
+	outline: none;
+}
+
+
+.container {
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+
+/*
+	----------------------------------------
+				  	  MENU
+	----------------------------------------
+*/
+.menu-section {
+	background-color: #171717;
+}
+.mobile-top-section {
+	display: none;
+}
+.menu {
+	height: 60px;
+	display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-weight: bold;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+
+
+.menu__logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.menu__logo-link {
+	text-transform: none;
+	font-size: 25px;
+	text-transform: none;
+    font-weight: bold;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+.menu__logo-link span {
+	border-radius: 8%;
+	background-color: #ad0c6f;
+	padding: 4px;
+	margin-left: 3px;
+}
+
+
+
+.menu__list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.menu__list_ul {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.menu__list_ul_li {
+	margin-left: 40px;
+	font-size: 15px;
+}
+.menu__list_ul_li:first-child {
+	margin-left: 0;
+}
+
+
+
+.menu__account {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.menu__account_login {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+
+	background-color: #ad0c6f;
+	border-radius: 8%;
+}
+.menu__account_login-link {
+	padding: 10px 20px;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 18px;
+}
+
+
+
+
+
+.mobile-top__button {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+.menu__hide {
+	display: none;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	height: 30px;
+	width: 30px;
+}
+.menu__hide_button {
+	height: 100%;
+	width: 100%;
+	padding: 5px 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	background-color: transparent;
+	outline: none;
+	border: 1px solid white;
+}
+.menu__hide_button-stick {
+	width: 80%;
+	height: 3px;
+	border-radius: 25%;
+	background-color: #fff;
+}
+
+
+/*
+	----------------------------------------
+				  	  FOOTER
+	----------------------------------------
+*/
+.footer {
+    margin-top: 20px;
+	border-top: 2px solid #171717;
+ 	padding: 50px 0;
+ 	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.footer__links_ul {
+	display: flex;
+}
+.footer__links_ul_li {
+	margin-left: 25px;
+}
+.footer__links_ul_li:first-child {
+	margin-left: 0;
+}
+
+
+
+.footer__authors {
+	margin-top: 20px;
+}
+.footer__authors_author_makariy {
+	font-size: 27px;
+	font-family: 'Fleur De Leah', cursive;
+}
+
+
+
+
+/*
+	----------------------------------------
+					ADAPTING
+	----------------------------------------
+*/
+
+@media(max-width: 600px) {
+	.menu-section {
+		position: absolute;
+		left: -100%;
+		transition: 0.3s;
+		z-index: 10;
+		height: 100vh;
+		width: 100vw;
+	}
+	.menu-section.active {
+		left: 0;
+	}
+	.mobile-top-section {
+		display: block;
+		padding: 10px;
+		background-color: #171717;
+	}
+	.menu__hide {
+		display: block;
+	}
+
+
+
+
+	.menu {
+		flex-direction: column;
+		height: 80%;
+		margin-top: 5%;
+	}
+	.menu__logo-link {
+		font-size: 40px;
+	}
+	.menu__list_ul {
+		flex-direction: column;
+	}
+	.menu__list_ul_li {
+		margin-left: 0;
+		font-size: 18px;
+		margin-top: 16px;
+	}
+	.menu__list_ul_li:first-child {
+		margin-top: 0;
+	}
+	.menu__account_login-link {
+		font-size: 25px;
+	}
+}

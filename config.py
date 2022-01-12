@@ -4,12 +4,13 @@ from lib.database import init_database
 
 
 template_loader = Environment(
-    loader=FileSystemLoader('src'),
+    loader=FileSystemLoader('templates'),
     enable_async=True,
 )
 
 INSTALLED_APPS = [
-    'src.feed',
+    'src.home',
+    'src.videos',
 ]
 
 TESTING = False
@@ -21,9 +22,9 @@ app_events = {
 }
 
 
-SECRET_KEY = os.environ.get('SANIC_APP_SECRET_KEY') or 'd41ea53)122266ad84b503b70fd?4dbe167383375ceeb8ww829529a2696d2c'
+SECRET_KEY = os.environ.get('SANIC_APP_SECRET_KEY') or 'd41ea53)122266ad84b503b70fd?4dbe167383375ceeb8ww8adsadwww29a2696d2c'
 
-DB_NAME = os.environ.get('DATABASE_NAME') or 'fast_crypt'
+DB_NAME = os.environ.get('DATABASE_NAME') or 'adult_site'
 DB_USER = os.environ.get('DATABASE_USER') or 'postgres'
 DB_PASSWORD = os.environ.get('DATABASE_PASSWORD') or 'Kariy123'
 DB_HOST = os.environ.get('DATABASE_HOST') or 'localhost'
