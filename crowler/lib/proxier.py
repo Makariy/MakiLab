@@ -1,7 +1,6 @@
 import json
 import requests
 from typing import List, Dict, Union
-from crowler import config
 
 
 class Proxy:
