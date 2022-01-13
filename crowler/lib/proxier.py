@@ -29,17 +29,7 @@ class Proxier:
     def __init__(self, url='https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=speed&sort_type=desc'):
         self.url = url
         self.used_proxies = []
-        with open(config.USER_PROXIES_FILE_NAME, 'r') as file:
-            data = json.loads(file.read())
-            for proxy_data in data['proxies']:
-                self.used_proxies.append(Proxy(proxy_data))
-        self.proxies = self._get_proxies()
-
-    def __del__(self):
-        with open(config.USER_PROXIES_FILE_NAME, 'w') as file:
-            file.write(json.dumps({
-                'proxies': [str(proxy) for proxy in self.used_proxies]
-            }))
+        self.proxies = self.make_proxies()
 
     def _make_proxies_from_data(self, data: Dict[str, List[Dict[str, str]]]) -> List[Proxy]:
         proxies = []
@@ -49,14 +39,21 @@ class Proxier:
                 proxies.append(proxy)
         return proxies
 
-    def _get_proxies(self):
+    def make_proxies(self):
         response = requests.get(self.url)
         data = json.loads(response.text)
         return self._make_proxies_from_data(data)
+
+    def add_used_proxy(self, proxy):
+        self.proxies.remove(proxy)
+        self.used_proxies.append(proxy)
 
     def get_proxy(self) -> Proxy:
         proxy = self.proxies.pop()
         self.used_proxies.append(proxy)
         return proxy
+
+    def get_proxies(self, count=8) -> List[Proxy]:
+        return [self.get_proxy() for i in range(count)]
 
 

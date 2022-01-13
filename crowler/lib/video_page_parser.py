@@ -79,4 +79,4 @@ class VideoPageParser:
             print(f'\t\tDownloaded video: {video["title"]}')
         except:
             print(f'Cannot download video: {video["title"]}')
-
+            raise RuntimeError('Connection refused')

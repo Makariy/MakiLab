@@ -3,8 +3,10 @@ from typing import List, Dict
 from .lib.video_list_parser import VideoListParser
 from .lib.video_page_parser import VideoPageParser
 from .lib.proxier import Proxier
+from .lib.paginator import Paginator
 
-url = 'https://xvideos.com'
+
+root = 'https://xvideos.com'
 
 
 def get_loop():
@@ -15,15 +17,14 @@ def get_loop():
     return loop
 
 
-def get_videos_list():
+def get_videos_list(url='https://xvideos.com'):
     loop = get_loop()
     parser = VideoListParser(url)
     return loop.run_until_complete(parser.get_videos_rendered())
 
 
-def download_videos(videos: List[Dict[str, str]]):
-    proxier = Proxier()
-    proxies = [proxier.get_proxy() for i in range(8)]
+def download_videos(videos: List[Dict[str, str]], proxier: Proxier):
+    proxies = proxier.get_proxies()
     proxies_count = len(proxies)
 
     loop = get_loop()
@@ -34,7 +35,21 @@ def download_videos(videos: List[Dict[str, str]]):
         videos_set = videos[i:i+proxies_count]
         for x in range(len(videos_set)):
             video = videos_set[x]
-            video['url'] = url + video['url']
+
+            # Video url: "/asdonsadsa/23/123/51/asdpsadmpsad_sadkasd_asdasd"
+            # root: https://xvideos.com
+            video['url'] = root + video['url']
             parser = VideoPageParser()
             tasks.append(parser.download_video(video, proxies[x], '/home/makariy/disk/data/'))
-        loop.run_until_complete(asyncio.gather(*tasks))
+
+        try:
+            loop.run_until_complete(asyncio.gather(*tasks))
+        # Change proxies if not working)))
+        #     ^      ^
+        #      _ 00 _
+        #      <---->
+        except RuntimeError:
+            for proxy in proxies:
+                proxier.add_used_proxy(proxy)
+                proxier.make_proxies()
+                proxies = [proxier.get_proxy() for i in range(8)]
