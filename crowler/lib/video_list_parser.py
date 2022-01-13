@@ -11,7 +11,7 @@ class VideoListParser:
     async def _make_soup(self):
         async with aiohttp.ClientSession() as session:
             response = await session.get(self.url)
-            return Soup(await response.text())
+            return Soup(await response.text(), 'html.parser')
 
     async def _get_video_title(self, html_video: Soup):
         return html_video.find(**{'class': 'title'}).findChild().get_attribute_list('title')[0]
@@ -26,7 +26,7 @@ class VideoListParser:
         return {
             'title': await self._get_video_title(html_video),
             'preview_link': await self._get_video_preview_link(html_video),
-            'link': await self._get_video_link(html_video),
+            'url': await self._get_video_link(html_video),
             'uuid': str(uuid4())
         }
 

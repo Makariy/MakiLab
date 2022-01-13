@@ -1,8 +1,10 @@
 import re
+import os
 from bs4 import BeautifulSoup as Soup
 from typing import List, Dict
 import aiohttp
 import ffmpeg
+from .proxier import Proxy
 
 
 class HLS:
@@ -25,12 +27,10 @@ class QUALITY:
 
 
 class VideoPageParser:
-    def __init__(self):
-        self.session = None
-
     async def _make_soup(self, url) -> Soup:
-        response = await self.session.get(url)
-        return Soup(await response.text())
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(url)
+            return Soup(await response.text(), 'html.parser')
 
     async def _get_video_hls_url(self, soup: Soup) -> str:
         return re.compile(r"(?<=setVideoHLS\(['\"]).+(?=['\"]\))").findall(str(soup))[0]
@@ -66,10 +66,17 @@ class VideoPageParser:
         else:
             return hls_list[0]
 
-    async def download_video(self, video: Dict[str, str]):
-        self.session = aiohttp.ClientSession()
-        hls = await self._get_video_hls(video['url'])
-        await self.session.close()
-        ffmpeg.input(hls.url).output(video['uuid'] + '.mp4', codec='copy', loglevel='quiet').run()
-        return True
+    async def download_video(self, video: Dict[str, str], proxy: Proxy, directory='data'):
+        try:
+            hls = await self._get_video_hls(video['url'])
+            command = ffmpeg\
+                .input(hls.url, http_proxy=f'https://{proxy.ip}:{proxy.port}/')\
+                .output(os.path.join(directory, video['uuid'] + '.mp4'),
+                                         codec='copy', loglevel='error')
+
+            print(f'Downloading video: {video["title"]}')
+            command.run()
+            print(f'\t\tDownloaded video: {video["title"]}')
+        except:
+            print(f'Cannot download video: {video["title"]}')
 
