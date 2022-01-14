@@ -10,6 +10,7 @@ from lib.start_new_app import start_new_app
 from src.application import create_app, run_app
 import config 
 
+from crowler.crowl import crowl
 
 
 def main(args):
@@ -47,6 +48,10 @@ def main(args):
             return
         args = create_app_parser.parse_args(extra)
         start_new_app(args.title)
+
+    elif args.command == 'crowl':
+        app = create_app(config)
+        crowl(app)
 
 
 if __name__ == '__main__':

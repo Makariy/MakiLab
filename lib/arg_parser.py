@@ -18,6 +18,7 @@ main_parser.add_argument('file', type=str, help='Executive file')
 main_parser.add_argument('command', choices=[
                                 'runserver',
                                 'createapp',
-                                'test'
+                                'test',
+                                'crowl'
                             ],
                          type=str, help='Command to execute')

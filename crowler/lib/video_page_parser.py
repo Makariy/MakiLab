@@ -5,25 +5,7 @@ from typing import List, Dict
 import aiohttp
 import ffmpeg
 from .proxier import Proxy
-
-
-class HLS:
-    def __init__(self, name, resolution, bandwidth, url):
-        self.name = name
-        self.resolution = resolution
-        self.bandwidth = bandwidth
-        self.url = url
-
-    name: str
-    resolution: str
-    bandwidth: int
-    url: str
-
-
-class QUALITY:
-    BEST = 1
-    NORMAL = 2
-    WORST = 3
+from .models import Video, HLS, QUALITY
 
 
 class VideoPageParser:
@@ -52,8 +34,8 @@ class VideoPageParser:
                 ))
         return sorted(hlss, key=lambda x: int(x.bandwidth))
 
-    async def _get_video_hls(self, video_url: str, quality: QUALITY = QUALITY.NORMAL):
-        video_html = await self._make_soup(video_url)
+    async def get_video_hls(self, video: Video, quality: QUALITY = QUALITY.NORMAL):
+        video_html = await self._make_soup(video.url)
         hls_url = await self._get_video_hls_url(video_html)
         hls_list = await self._parse_video_hls(hls_url)
 
@@ -66,17 +48,4 @@ class VideoPageParser:
         else:
             return hls_list[0]
 
-    async def download_video(self, video: Dict[str, str], proxy: Proxy, directory='data'):
-        try:
-            hls = await self._get_video_hls(video['url'])
-            command = ffmpeg\
-                .input(hls.url, http_proxy=f'https://{proxy.ip}:{proxy.port}/')\
-                .output(os.path.join(directory, video['uuid'] + '.mp4'),
-                                         codec='copy', loglevel='error')
 
-            print(f'Downloading video: {video["title"]}')
-            command.run()
-            print(f'\t\tDownloaded video: {video["title"]}')
-        except:
-            print(f'Cannot download video: {video["title"]}')
-            raise RuntimeError('Connection refused')

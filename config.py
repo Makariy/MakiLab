@@ -31,3 +31,6 @@ DB_HOST = os.environ.get('DATABASE_HOST') or 'localhost'
 DB_PORT = os.environ.get('DATABASE_PORT') or '5432'
 
 MEDIA_LOADER_URL = os.environ.get('MEDIA_LOADER_URL') or 'http://192.168.1.144:9000'
+
+CROWLING_URL = 'https://xvideos.com'
+CROWLING_ROOT = 'https://xvideos.com'

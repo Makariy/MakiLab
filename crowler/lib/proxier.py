@@ -1,27 +1,7 @@
 import json
 import requests
+from .models import Proxy
 from typing import List, Dict, Union
-
-
-class Proxy:
-    ip: str
-    port: int
-    speed: int
-
-    def __init__(self, proxy_data: Dict[str, Union[str, int]]):
-        self.ip = proxy_data['ip']
-        self.port = proxy_data['port']
-        self.speed = proxy_data.get('speed') or 0
-
-    def __cmp__(self, other):
-        return self.ip == other.ip and self.port == other.port
-
-    def __str__(self):
-        return json.dumps({
-            'ip': self.ip,
-            'port': self.port,
-            'speed': self.speed
-        })
 
 
 class Proxier:
@@ -33,7 +13,11 @@ class Proxier:
     def _make_proxies_from_data(self, data: Dict[str, List[Dict[str, str]]]) -> List[Proxy]:
         proxies = []
         for proxy_data in data['data']:
-            proxy = Proxy(proxy_data)
+            proxy = Proxy(
+                ip=proxy_data['ip'],
+                port=proxy_data['port'],
+                speed=proxy_data['speed']
+            )
             if proxy not in self.used_proxies:
                 proxies.append(proxy)
         return proxies
