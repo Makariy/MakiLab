@@ -5,6 +5,7 @@ from sanic.response import html, file
 from sanic.exceptions import Forbidden
 
 from . import bp
+import config 
 from src.videos.services.db_services import get_video_by_params
 
 from src import get_template_loader
@@ -16,8 +17,18 @@ loader = get_template_loader()
 # Only for debug
 @bp.route('static/<path:path>')
 async def static(request, path):
-    if os.path.exists(os.path.join('static/', path)):
-        return await file(f'static/{path}')
+    file_path = os.path.join('static', path)
+    if os.path.exists(file_path):
+        return await file(file_path)
+    else:
+        raise Forbidden()
+
+
+@bp.route('previews/<path:path>')
+async def preview(request, path):
+    file_path = os.path.join(config.PREVIEW_SAVING_PATH, path)
+    if os.path.exists(file_path):
+        return await file(file_path)
     else:
         raise Forbidden()
 

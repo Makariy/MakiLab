@@ -1,11 +1,9 @@
 import re
-import os
 from bs4 import BeautifulSoup as Soup
-from typing import List, Dict
+from typing import List
 import aiohttp
-import ffmpeg
-from .proxier import Proxy
 from .models import Video, HLS, QUALITY
+from .exceptions import VideoPageHasNoHLSLinkException
 
 
 class VideoPageParser:
@@ -15,7 +13,11 @@ class VideoPageParser:
             return Soup(await response.text(), 'html.parser')
 
     async def _get_video_hls_url(self, soup: Soup) -> str:
-        return re.compile(r"(?<=setVideoHLS\(['\"]).+(?=['\"]\))").findall(str(soup))[0]
+        hls_url = re.compile(r"(?<=setVideoHLS\(['\"]).+(?=['\"]\))").findall(str(soup))
+        if len(hls_url) == 0:
+            raise VideoPageHasNoHLSLinkException()
+
+        return hls_url[0]
 
     async def _parse_video_hls(self, hls_url: str) -> List[HLS]:
         prefix = "/".join(hls_url.split("/")[:-1]) + '/'

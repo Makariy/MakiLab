@@ -2,6 +2,7 @@ import json
 import requests
 from .models import Proxy
 from typing import List, Dict, Union
+from .exceptions import NoMoreProxiesException
 
 
 class Proxier:
@@ -32,7 +33,12 @@ class Proxier:
         self.used_proxies.append(proxy)
 
     def get_proxy(self) -> Proxy:
-        proxy = self.proxies.pop()
+        try:
+            proxy = self.proxies.pop()
+        except IndexError:
+            self.make_proxies()
+            return self.get_proxy()
+            
         self.used_proxies.append(proxy)
         return proxy
 

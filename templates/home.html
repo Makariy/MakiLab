@@ -101,8 +101,8 @@
 	<section class="next-videos_section">
 		<div class="container">
 			<div class="next-videos-selection">
-				{% if past_page %}<a href="/?page={{ past_page }}" class="next-videos-selection--left"><</a>{% endif %}
-				{% if next_page %}<a href="/?page={{ next_page }}" class="next-videos-selection--right">></a>{% endif %}
+				<button onclick="goToPastPage()" id="next-videos-selection--left"><</button>
+				<button onclick="goToNextPage()" id="next-videos-selection--right">></button>
 			</div>
 		</div>
 	</section>

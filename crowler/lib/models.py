@@ -10,6 +10,9 @@ class Proxy(pydantic.BaseModel):
     def __cmp__(self, other):
         return self.ip == other.ip and self.port == other.port
 
+    def __str__(self):
+        return f'https://{self.ip}:{self.port}'
+
 
 class HLS(pydantic.BaseModel):
     name: str

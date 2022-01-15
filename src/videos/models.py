@@ -10,6 +10,8 @@ class Video(BaseModel):
     preview = fields.ForeignKeyField('models.VideoPreview')
     views = fields.IntField(default=0, null=False)
 
+    real_url = fields.TextField()
+
 
 class VideoPreview(BaseModel):
     file_name = fields.TextField(null=False)

@@ -1,10 +1,15 @@
 import os
 import ffmpeg
 import asyncio
+import aiohttp
 from typing import List
+
+import config
 from .proxier import Proxier
 from .video_page_parser import VideoPageParser
 from .models import HLS, Video, Proxy
+from .exceptions import VideoPageHasNoHLSLinkException, NoMoreProxiesException
+from src.videos.services.extern_services import create_preview
 
 
 def _get_loop():
@@ -21,30 +26,45 @@ def _get_video_hls(video: Video):
     return loop.run_until_complete(parser.get_video_hls(video))
 
 
+async def _download_preview(video: Video):
+    async with aiohttp.ClientSession() as session:
+        response = await session.get(video.preview_url)
+        preview = await create_preview(await response.content.read())
+        return preview
+
+
 async def _download_video(video: Video, hls: HLS, proxy: Proxy, directory: str):
     from src.videos.models import Video as DBVideo
-    from src.videos.models import VideoPreview
     from lib.models import User
+    from src.videos.services.db_services import get_video_by_params
 
-    path = os.path.join(directory, video.uuid)
+    downloaded_video = await get_video_by_params(real_url=video.url)
+    if downloaded_video is not None:
+        print(f'Already downloaded {downloaded_video.title}({downloaded_video.file_name})')
+        return False
+
+    file_name = video.uuid
+    save_path = os.path.join(config.VIDEO_SAVING_PATH, file_name)
     command = ffmpeg \
-        .input(hls.url, http_proxy=f'https://{proxy.ip}:{proxy.port}/') \
-        .output(path,
-                codec='copy', loglevel='error')
+        .input(hls.url, http_proxy=str(proxy)) \
+        .output(save_path,
+                f='mp4', codec='copy', loglevel='error')
 
     print(f'Downloading video: {video.title} ({video.uuid})')
     command.run()
 
-    preview = await VideoPreview.create(file_name=video.preview_url)
+    preview = await _download_preview(video)
     await DBVideo.create(
         author=await User.get(id=1),
         title=video.title,
         description=video.title + ' description',
-        file_name=path,
+        file_name=file_name,
         preview=preview,
-        views=0
+        views=0,
+        real_url=video.url
     )
     print(f'\t\tDownloaded video: {video.title}')
+    return True
 
 
 def download_videos(root: str, videos: List[Video], proxier: Proxier):
@@ -58,11 +78,13 @@ def download_videos(root: str, videos: List[Video], proxier: Proxier):
         for x in range(len(videos_set)):
             video = videos_set[x]
             video.url = root + video.url
-            hls = _get_video_hls(video)
 
             try:
+                hls = _get_video_hls(video)
                 loop.run_until_complete(_download_video(video, hls, proxies[x], '/home/makariy/disk/data/'))
             except ffmpeg.Error:
                 proxies = proxier.get_proxies(8)
+            except VideoPageHasNoHLSLinkException:
+                print(f'Cannot download video: {video.title} because it has no HLS link')
 
 

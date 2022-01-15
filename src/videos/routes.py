@@ -1,6 +1,8 @@
+import os
 import uuid
 
 from . import bp
+import config
 
 from sanic.response import stream, json
 from sanic.exceptions import Forbidden
@@ -11,8 +13,9 @@ from src.videos.services.json_services import *
 
 
 async def stream_video(request, video):
+    video_path = os.path.join(config.VIDEO_SAVING_PATH, video.file_name)
     reader, status_code, content_length, content_range = \
-        open_streaming_file(request, open('data/' + video.file_name, 'rb'))
+        open_streaming_file(request, open(video_path, 'rb'))
 
     async def _stream_video(response):
         for chunk in reader:
@@ -48,7 +51,9 @@ async def read_video_file(request, *args, **kwargs):
 
 @bp.route('get_videos/')
 async def get_videos(request):
-    videos = await get_last_videos(20)
-    return json(await render_videos(videos))
-
+    page = request.get_args().get('page') or '1'
+    if page and page.isdigit():
+        videos = await get_last_videos(20, int(page))
+        return json(await render_videos(videos))
+    raise Forbidden()
 
