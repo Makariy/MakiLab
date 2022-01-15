@@ -35,6 +35,6 @@ MEDIA_LOADER_URL = os.environ.get('MEDIA_LOADER_URL') or 'http://192.168.1.144:9
 CROWLING_URL = 'https://xvideos.com'
 CROWLING_ROOT = 'https://xvideos.com'
 
-DATA_SAVING_PATH = '/home/makariy/disk/data'
+DATA_SAVING_PATH = '/home/pi/disk/data'
 VIDEO_SAVING_PATH = f'{DATA_SAVING_PATH}/videos'
 PREVIEW_SAVING_PATH = f'{DATA_SAVING_PATH}/previews'

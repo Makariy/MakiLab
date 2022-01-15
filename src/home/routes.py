@@ -5,8 +5,9 @@ from sanic.response import html, file
 from sanic.exceptions import Forbidden
 
 from . import bp
-import config 
+import config
 from src.videos.services.db_services import get_video_by_params
+from src.videos.services.db_services import get_video_preview_by_params
 
 from src import get_template_loader
 
@@ -14,23 +15,18 @@ from src import get_template_loader
 loader = get_template_loader()
 
 
-# Only for debug
-@bp.route('static/<path:path>')
-async def static(request, path):
-    file_path = os.path.join('static', path)
-    if os.path.exists(file_path):
-        return await file(file_path)
-    else:
+@bp.route('previews/<preview_uuid:str>')
+async def preview(request, preview_uuid):
+    try:
+        preview_uuid = uuid.UUID(preview_uuid)
+    except ValueError:
         raise Forbidden()
-
-
-@bp.route('previews/<path:path>')
-async def preview(request, path):
-    file_path = os.path.join(config.PREVIEW_SAVING_PATH, path)
-    if os.path.exists(file_path):
-        return await file(file_path)
-    else:
+    preview = await get_video_preview_by_params(uuid=preview_uuid)
+    if preview is None:
         raise Forbidden()
+    else:
+        path = os.path.join(config.PREVIEW_SAVING_PATH, preview.file_name)
+        return await file(path)
 
 
 @bp.route('/')
