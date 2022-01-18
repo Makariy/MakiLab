@@ -15,6 +15,9 @@ from src import get_template_loader
 loader = get_template_loader()
 
 
+bp.static('/static', './static')
+
+
 @bp.route('previews/<preview_uuid:str>')
 async def preview(request, preview_uuid):
     try:

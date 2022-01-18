@@ -1,8 +1,9 @@
 import aiohttp
+import requests
 from uuid import uuid4
 from typing import List
 from bs4 import BeautifulSoup as Soup
-from .models import Video
+from .models import Video, Proxy
 
 
 class VideoListParser:

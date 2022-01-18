@@ -20,10 +20,10 @@ def _get_loop():
     return loop
 
 
-def _get_video_hls(video: Video):
+def _get_video_hls(video: Video, proxy: Proxy):
     loop = _get_loop()
     parser = VideoPageParser()
-    return loop.run_until_complete(parser.get_video_hls(video))
+    return loop.run_until_complete(parser.get_video_hls(video, proxy))
 
 
 async def _download_preview(video: Video):
@@ -33,7 +33,7 @@ async def _download_preview(video: Video):
         return preview
 
 
-async def _download_video(video: Video, hls: HLS, proxy: Proxy, directory: str):
+async def _download_video(video: Video, hls: HLS, proxy: Proxy):
     from src.videos.models import Video as DBVideo
     from lib.models import User
     from src.videos.services.db_services import get_video_by_params
@@ -68,23 +68,18 @@ async def _download_video(video: Video, hls: HLS, proxy: Proxy, directory: str):
 
 
 def download_videos(root: str, videos: List[Video], proxier: Proxier):
-    proxies = proxier.get_proxies()
-    proxies_count = len(proxies)
-
     loop = _get_loop()
+    proxy = proxier.get_proxy()
+    for video in videos:
+        video.url = root + video.url
 
-    for i in range(0, len(videos), proxies_count):
-        videos_set = videos[i:i+proxies_count]
-        for x in range(len(videos_set)):
-            video = videos_set[x]
-            video.url = root + video.url
-
-            try:
-                hls = _get_video_hls(video)
-                loop.run_until_complete(_download_video(video, hls, proxies[x], '/home/makariy/disk/data/'))
-            except ffmpeg.Error:
-                proxies = proxier.get_proxies(8)
-            except VideoPageHasNoHLSLinkException:
-                print(f'Cannot download video: {video.title} because it has no HLS link')
+        try:
+            hls = _get_video_hls(video, proxy)
+            loop.run_until_complete(_download_video(video, hls, proxy))
+        except ffmpeg.Error:
+            proxier.add_used_proxy(proxy)
+            proxy = proxier.get_proxy()
+        except VideoPageHasNoHLSLinkException:
+            print(f'Cannot download video: {video.title} because it has no HLS link')
 
 

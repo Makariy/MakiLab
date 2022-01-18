@@ -34,15 +34,11 @@ class Proxier:
 
     def get_proxy(self) -> Proxy:
         try:
-            proxy = self.proxies.pop()
+            return self.proxies[0]
         except IndexError:
             self.make_proxies()
+            if not self.proxies:
+                raise NoMoreProxiesException()
+
             return self.get_proxy()
-            
-        self.used_proxies.append(proxy)
-        return proxy
-
-    def get_proxies(self, count=8) -> List[Proxy]:
-        return [self.get_proxy() for i in range(count)]
-
 
