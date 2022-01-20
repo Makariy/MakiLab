@@ -54,6 +54,13 @@ function loadVideos() {
         type: 'GET',
         url: '/videos/get_videos/?page=' + page_counter,
     }).done(function (response) {
+        var page = findGetParameter('page') == null ? 1 : parseInt(findGetParameter('page'));
+        if (page <= 1) {
+            document.getElementById('next-videos-selection--left').style['display'] = 'none';
+        }
+        if (response.last) {
+            document.getElementById('next-videos-selection--right').style['display'] = 'none';
+        }
         var videos = $('#videos')[0];
         for (var i = 0; i < response.videos.length; i+=1) {
             videos.innerHTML += renderVideo(response.videos[i].video);

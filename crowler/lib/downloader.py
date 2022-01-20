@@ -63,13 +63,14 @@ async def _download_video(video: Video, hls: HLS, proxy: Proxy):
         views=0,
         real_url=video.url
     )
-    print(f'\t\tDownloaded video: {video.title}')
+    print(f'\tDownloaded video: {video.title}')
     return True
 
 
 def download_videos(root: str, videos: List[Video], proxier: Proxier):
     loop = _get_loop()
     proxy = proxier.get_proxy()
+
     for video in videos:
         video.url = root + video.url
 

@@ -2,10 +2,12 @@ import os
 import uuid
 
 from sanic.response import html, file
+from sanic.request import Request  # type
 from sanic.exceptions import Forbidden
 
 from . import bp
 import config
+
 from src.videos.services.db_services import get_video_by_params
 from src.videos.services.db_services import get_video_preview_by_params
 
@@ -19,7 +21,7 @@ bp.static('/static', './static')
 
 
 @bp.route('previews/<preview_uuid:str>')
-async def preview(request, preview_uuid):
+async def preview_view(request: Request, preview_uuid):
     try:
         preview_uuid = uuid.UUID(preview_uuid)
     except ValueError:
@@ -33,13 +35,13 @@ async def preview(request, preview_uuid):
 
 
 @bp.route('/')
-async def home_view(request):
+async def home_view(request: Request):
     template = loader.get_template('home.html')
     return html(await template.render_async())
 
 
 @bp.route('video/')
-async def video_view(request):
+async def video_view(request: Request):
     video_uuid = request.get_args().get('video_uuid')
     if video_uuid:
         try:
