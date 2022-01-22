@@ -107,26 +107,8 @@
 
 	        </div>
 
-	        <div class="other-videos">
-				{% for preview in previews %}
-				<div class="other__video">
-					<a href="/video?id={{ preview[1].id }}&page={{ page + 1 }}" class="other__video_video-img">
-						<img src="/video_preview?id={{ preview[0].id }}" class="other__video_video-img">
-					</a>
-					<div class="other__video_text">
-						<h3 class="other__video_text-title">
-							{{ preview[1].title|truncate(30) }}
-						</h3>
-						<p class="other__video_text-description">
-							{% if preview[1].description %}
-							{{ preview[1].description|truncate(40) }}
-							{% else %}
-							Author doesn't provide any description for this video
-							{% endif %}
-						</p>
-					</div>
-				</div>
-				{% endfor %}
+	        <div class="other-videos" id="other-videos">
+				<!-- This part will be loaded dynamically with AJAX -->
 	        </div>
     	</div>
     </section>
@@ -171,7 +153,7 @@
 	</section>
 </body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-	<script src="/static/js/main.js"></script>
+	<script src="/static/js/video.js"></script>
 	<script>
 		function menu_top_clicked() {
 			var menu = $('.menu-section');

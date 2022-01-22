@@ -38,8 +38,8 @@
 
 
 .videos__video_img {
-    height: 170px;
-    width: 300px;
+    max-height: 170px;
+    max-width: 300px;
 }
 .videos__video_text-title {
 	font-family: 'Ubuntu', sans-serif;

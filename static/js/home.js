@@ -13,12 +13,12 @@ function findGetParameter(parameterName) {
 }
 
 
-function renderVideo(video) {
+function renderVideo(video, page) {
     let description = video.description;
     if (description == null)
         description = "Author doesn't provide any description for this video";
     return `
-    <a class="videos__video" href="/video/?video_uuid=${video.uuid}">
+    <a class="videos__video" href="/video/?video_uuid=${video.uuid}&page=${page+1}">
         <img src="/previews/${video.preview}" alt=".!." class="videos__video_img">
         <div class="videos__video_text">
             <h3 class="videos__video_text-title">
@@ -63,7 +63,7 @@ function loadVideos() {
         }
         var videos = $('#videos')[0];
         for (var i = 0; i < response.videos.length; i+=1) {
-            videos.innerHTML += renderVideo(response.videos[i].video);
+            videos.innerHTML += renderVideo(response.videos[i].video, page);
         }
     });
 }
