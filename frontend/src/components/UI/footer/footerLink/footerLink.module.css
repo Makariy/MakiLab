@@ -1,0 +1,6 @@
+.links_li {
+	margin-left: 25px;
+}
+.links_li:first-child {
+	margin-left: 0;
+}

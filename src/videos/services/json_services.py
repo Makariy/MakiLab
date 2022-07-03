@@ -8,7 +8,8 @@ async def render_video(video: Video) -> Dict[str, Dict[str, str]]:
             'title': video.title,
             'description': video.description,
             'views': video.views,
-            'preview': str(video.preview.uuid),
+            'video': video.file_name,
+            'preview': video.preview,
             'uuid': str(video.uuid),
             'author_name': video.author.username,
             'author_uuid': str(video.author.uuid)

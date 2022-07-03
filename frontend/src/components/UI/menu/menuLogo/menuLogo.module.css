@@ -1,0 +1,31 @@
+
+
+.menu__logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.menu__logo_link {
+	text-transform: none;
+	font-size: 25px;
+	text-transform: none;
+    font-weight: bold;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+.menu__logo_link span {
+	border-radius: 8%;
+	background-color: #ad0c6f;
+	padding: 4px;
+	margin-left: 3px;
+}
+
+
+
+@media(max-width: 600px) {
+	.menu__logo_link {
+		font-size: 40px;
+	}
+	.menu__account_login_link {
+		font-size: 25px;
+	}
+}

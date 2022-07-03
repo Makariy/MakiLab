@@ -1,18 +1,31 @@
 import os
+import importlib
 from sanic import Sanic
 
 
-def _init_app(app, config):
-    """Initializes the application"""
-    app.ctx.config = config
-
+def _register_events(app, config):
     for event in config.app_events:
         for event_handler in config.app_events[event]:
             app.register_listener(event_handler, event)
 
-    from .blueprint_routes import blue_print_routes
-    for blueprint_getter in blue_print_routes:
-        app.blueprint(blueprint_getter())
+
+def _register_blueprints(app, config):
+    for app_name in config.INSTALLED_APPS:
+        try:
+            module = importlib.import_module(app_name + ".app")
+            app.blueprint(module.get_blueprint())
+        except ImportError as e:
+            print(f"Cannot import {app_name}.app module")
+            raise e
+        except AttributeError as e:
+            print(f"Cannot import get_blueprint from {app_name}.app module")
+            raise e
+
+
+def _init_app(app, config):
+    app.ctx.config = config
+    _register_events(app, config)
+    _register_blueprints(app, config)
 
 
 def create_app(config):

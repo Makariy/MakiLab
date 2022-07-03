@@ -1,0 +1,60 @@
+
+/*
+	Text color 			#ffffff
+	Elements color 		#ad0c6f
+	Sections color 		#171717
+	Background color 	#000000
+
+
+	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Ubuntu', sans-serif
+
+	I need to paste it somewhere: 
+	font-family: 'Fleur De Leah', cursive;
+	font-family: 'Italianno', cursive;
+*/
+
+
+body {
+	width: 100vw;
+	margin: 0;
+	background-color: #000000;
+	color: #ffffff;
+	overflow-x: hidden;
+}
+
+a {
+	outline: none;
+	text-decoration: none;
+	color: inherit;
+}
+
+h1,h2,h3,h4,p {
+	margin: 0;
+}
+
+li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+button {
+	outline: none;
+}
+
+
+.container {
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+}

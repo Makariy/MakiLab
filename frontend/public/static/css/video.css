@@ -1,0 +1,127 @@
+/*
+	Text color 			#ffffff
+	Elements color 		#ad0c6f
+	Sections color 		#171717
+	Background color 	#000000
+
+
+	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Ubuntu', sans-serif
+
+	I need to paste it somewhere:
+	font-family: 'Fleur De Leah', cursive;
+	font-family: 'Italianno', cursive;
+*/
+
+
+.video-section .container {
+	display: flex;
+	margin-top: 20px;
+}
+.video-video {
+	outline: none;
+	width: 65vw;
+    height: 70vh;
+}
+.video__text {
+	padding-left: 10px;
+	margin-top: 20px;
+}
+.video__text-title {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 15px;
+    font-weight: 700;
+    transform: scaleX(1.05);
+    width: fit-content;
+    
+}
+.video__text-description {
+	font-family: 'Source Sans Pro', sans-serif;  
+	font-size: 15px;
+	margin-top: 5px;
+}
+
+
+
+.other-videos {
+	margin-left: 20px;
+}
+.other__video_video {
+	display: flex;
+	margin-top: 12px;
+}
+.other__video:first-child {
+	margin-top: 0;
+}
+.other__video_video-img {
+	max-height: 100px;
+    max-width: 170px;
+}
+.other__video_text {
+	margin-left: 20px;
+}
+.other__video_text-title {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 15px;
+    font-weight: 700;
+    transform: scaleX(1.05);
+    width: fit-content;
+}
+.other__video_text-description {
+	font-family: 'Source Sans Pro', sans-serif;  
+	font-size: 15px;
+	margin-top: 5px;
+}
+
+
+
+@media(max-width: 1200px) {
+	.video-section .container {
+		flex-direction: column;
+	}
+	.video {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.video-video {
+		height: 50vh;
+	}
+	.video__text {
+		width: 65vw;
+	}
+	.other-videos {
+		margin-left: 0;
+		margin-top: 20px;
+	}
+}
+
+
+@media(max-width: 700px) {
+	.video-video {
+		height: 40vh;
+	}
+}
+
+@media(max-width: 550px) {
+	.video-video {
+		width: 85vw;
+		height: 30vh;
+	}
+}
+
+@media(max-width: 400px) {
+	.video-video {
+		height: 25vh;
+	}
+}
+
+@media(max-width: 350px) {
+	.video-video {
+		height: 20vh;
+	}
+}

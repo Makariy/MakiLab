@@ -1,5 +1,5 @@
 from tortoise import fields
-from lib.models import BaseModel, User
+from src.lib.models import BaseModel
 
 
 class Video(BaseModel):
@@ -7,12 +7,7 @@ class Video(BaseModel):
     title = fields.TextField(null=True)
     description = fields.TextField(null=True)
     file_name = fields.TextField(null=False)
-    preview = fields.ForeignKeyField('models.VideoPreview')
+    preview = fields.TextField(null=False)
     views = fields.IntField(default=0, null=False)
 
-    real_url = fields.TextField()
-
-
-class VideoPreview(BaseModel):
-    file_name = fields.TextField(null=False)
-
+    real_url = fields.TextField(null=True)

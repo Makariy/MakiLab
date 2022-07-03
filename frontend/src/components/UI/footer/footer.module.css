@@ -1,0 +1,28 @@
+
+/*
+	----------------------------------------
+				  	  FOOTER
+	----------------------------------------
+*/
+.footer {
+    margin-top: 20px;
+	border-top: 2px solid #171717;
+ 	padding: 50px 0;
+ 	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.footer__links_ul {
+	display: flex;
+}
+
+
+
+.footer__authors {
+	margin-top: 20px;
+}
+#makariy {
+	font-size: 27px;
+	font-family: 'Fleur De Leah', cursive;
+}

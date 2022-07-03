@@ -1,0 +1,28 @@
+
+.video_page_selector {
+    display: flex;
+    margin: 10px auto;
+    font-size: 24px;
+}
+
+.video_page_selector__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video_page_selector a {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+}
+.video_page_selector a:nth-child(2) {
+    margin-left: 20px;
+}
+
+
+
+
+
+

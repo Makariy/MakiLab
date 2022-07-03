@@ -1,0 +1,34 @@
+
+
+
+
+
+
+/*
+	----------------------------------------
+                    NEXT-VIDEOS
+	----------------------------------------
+*/
+
+.next-videos-selection {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.next-videos-selection-button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+}
+.next-videos-selection--right {
+    margin-left: 20px;
+}
+
+
+
+
+
+

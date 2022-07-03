@@ -1,0 +1,34 @@
+
+/*
+	----------------------------------------
+				  	  Video
+	----------------------------------------
+*/
+
+
+.videos__video {
+	margin-bottom: 45px;
+	width: 300px;
+}
+.videos__video_img {
+    height: 165px;
+    width: 293px;
+	position: relative;
+}
+.videos__video_img_img {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+.videos__video_text_title {
+	font-family: 'Ubuntu', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    width: fit-content;
+    margin-top: 7px;
+}
+.videos__video_text_text {
+	font-family: 'Source Sans Pro', sans-serif;  
+	font-size: 15px;
+	margin-top: 5px;
+}
