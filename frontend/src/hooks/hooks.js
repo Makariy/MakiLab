@@ -25,11 +25,11 @@ export const usePage = () => {
         let storagePage = localStorage.getItem('page')
 
         if (storagePage == null) 
-            return null, null 
+            return [null, null] 
     
         storagePage = JSON.parse(storagePage)
         if (storagePage == null) 
-            return null, null
+            return [null, null]
 
         page = storagePage.page 
         time = storagePage.time 
