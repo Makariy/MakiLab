@@ -1,6 +1,6 @@
 from tortoise.exceptions import DoesNotExist
 
-from src.videos.models import Video
+from videos.models import Video
 
 
 async def get_video_by_params(**params):

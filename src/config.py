@@ -1,6 +1,6 @@
 import os
 from jinja2 import Environment, FileSystemLoader
-from src.lib.database import init_database
+from lib.database import init_database
 
 
 template_loader = Environment(
@@ -9,7 +9,7 @@ template_loader = Environment(
 )
 
 INSTALLED_APPS = [
-    'src.videos',
+    'videos',
 ]
 
 TESTING = False

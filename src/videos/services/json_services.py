@@ -1,5 +1,5 @@
 from typing import List, Dict  # type
-from src.videos.models import Video  # type
+from videos.models import Video  # type
 
 
 async def render_video(video: Video) -> Dict[str, Dict[str, str]]:

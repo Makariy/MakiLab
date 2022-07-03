@@ -1,16 +1,16 @@
 import os
 import sys
-from src.lib.arg_parser import main_parser, \
+from lib.arg_parser import main_parser, \
     runserver_parser, \
     create_app_parser, \
     test_parser
-from src.lib.tester import Tester
-from src.lib.start_new_app import start_new_app
+from lib.tester import Tester
+from lib.start_new_app import start_new_app
 
-from src.application import create_app, run_app
+from application import create_app, run_app
 import config 
 
-from src.crowler.crowl import crowl
+from crowler.crowl import crowl
 
 
 def main(args):
@@ -47,7 +47,7 @@ def main(args):
             create_app_parser.print_help()
             return
         args = create_app_parser.parse_args(extra)
-        start_new_app(args.title)
+        start_new_app(args.title, config)
 
     elif args.command == 'crowl':
         app = create_app(config)

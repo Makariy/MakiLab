@@ -1,5 +1,5 @@
 from uuid import uuid4
-from src import config
+import config
 import os
 
 

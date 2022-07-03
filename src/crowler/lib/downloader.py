@@ -4,13 +4,14 @@ import aiohttp
 
 from typing import List
 
+import config
+
 from utils import get_event_loop
-from ... import config
 from .proxier import Proxier
 from .video_page_parser import VideoPageParser
 from .models import HLS, Video, Proxy
 from .exceptions import VideoPageHasNoHLSLinkException
-from src.videos.services.extern_services import create_preview
+from videos.services.extern_services import create_preview
 
 
 async def _get_video_hls(video: Video, proxy: Proxy):

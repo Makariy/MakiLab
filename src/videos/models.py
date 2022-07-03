@@ -1,5 +1,5 @@
 from tortoise import fields
-from src.lib.models import BaseModel
+from lib.models import BaseModel
 
 
 class Video(BaseModel):
