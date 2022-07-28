@@ -18,7 +18,7 @@ async def get_videos(request):
             'error': 'page not specified or is not a valid digit'
         })
 
-    videos = await get_last_videos(20, int(page))
+    videos = await get_videos(prefetch_author=True, count=20, page=int(page))
     if not videos:
         return json({
             'status': 'fail',
@@ -53,7 +53,7 @@ async def video_view(request: Request):
             'status': 'fail',
             'error': 'video_uuid is not a valid uuid'
         })
-    video = await get_video_by_params(uuid=video_uuid)
+    video = await get_video_by_params(prefetch_author=True, uuid=video_uuid)
     return json({
         **(await render_video(video)),
         'status': 'success'
