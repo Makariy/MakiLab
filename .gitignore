@@ -2,3 +2,4 @@
 src/venv
 frontend/node_modules
 www/videos
+*/__pycache__/*
