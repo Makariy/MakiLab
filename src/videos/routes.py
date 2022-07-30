@@ -3,8 +3,10 @@ from . import bp
 from sanic.response import json
 
 from .services.db_services import *
+from .services.cache_services import increment_views
 from videos.services.json_services import *
 from utils.converter import convert_string_to_uuid
+from utils.decorators import attach_session
 
 from sanic.request import Request
 
@@ -40,6 +42,7 @@ async def get_videos_view(request):
 
 
 @bp.route('video/')
+@attach_session
 async def video_view(request: Request):
     video_uuid = request.get_args().get('video_uuid')
     if not video_uuid:
@@ -54,6 +57,14 @@ async def video_view(request: Request):
             'error': 'video_uuid is not a valid uuid'
         })
     video = await get_video_by_params(prefetch_author=True, uuid=video_uuid)
+    if None not in [request.ctx.user, request.ctx.session]:
+        await increment_views(video, request.ctx.user, request.ctx.session)
+
+    if video is None:
+        return json({
+            'status': 'fail',
+            'error': 'video with this video_uuid does not exists'
+        })
     return json({
         **(await render_video(video)),
         'status': 'success'

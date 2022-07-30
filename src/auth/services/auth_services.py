@@ -1,7 +1,7 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from lib.models import User
+from ..models import User
 from .cache_services import start_session, terminate_session
 
 import config

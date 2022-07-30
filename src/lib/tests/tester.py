@@ -9,7 +9,8 @@ from tortoise import Model
 from tortoise.exceptions import ConfigurationError
 
 from utils import get_event_loop
-from lib.test import TestCase
+
+from .test import TestCase
 from lib.models import BaseModel
 
 

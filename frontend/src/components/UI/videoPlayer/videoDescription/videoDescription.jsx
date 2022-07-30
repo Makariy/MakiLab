@@ -15,6 +15,9 @@ const VideoDescription = ({video}) => {
                         "Author doesn't provide any description for this video"        
                 }
             </p>
+            <p className={classes.video__video_text_views}>
+                Views: {video.views}
+            </p>
         </div>
     );
 }
