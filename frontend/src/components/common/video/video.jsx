@@ -4,6 +4,14 @@ import classes from "./video.module.css";
 
 const Video = ({video}) => {
 
+
+    const truncateString = (str, len) => {
+        let result = str.substr(0, len);
+        if (result.length < str.length) 
+            result += "...";
+        return result;
+    }
+
     return (
         <Link className={classes.videos__video} 
               to={"/video/?video_uuid=" + video.uuid}>
@@ -12,10 +20,10 @@ const Video = ({video}) => {
             </div>
             <div className={classes.videos__video_text}>
                 <h3 className={classes.videos__video_text_title}>
-                    {video.title}
+                    {truncateString(video.title, 45)}
                 </h3>
                 <p className={classes.videos__video_text_text}>
-                    {video.description}
+                    {truncateString(video.description, 75)}
                 </p>
             </div>
         </Link>

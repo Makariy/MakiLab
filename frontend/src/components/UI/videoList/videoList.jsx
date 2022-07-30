@@ -1,4 +1,4 @@
-import Video from "./video/video";
+import Video from "../../common/video/video";
 import classes from "./videoList.module.css";
 
 

@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-import Menu from "../components/UI/menu/menu";
+import Menu from '../components/common/menu/menu';
 import Footer from "../components/UI/footer/footer";
 import VideoList from "../components/UI/videoList/videoList";
 import Loader from "../components/common/loader/loader";

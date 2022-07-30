@@ -1,0 +1,19 @@
+.input {
+    background-color: #000000;
+    width: 100%;
+    box-sizing: border-box;
+    
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFFFFF;
+
+    padding: 8px 14px;
+}
+
+.input::placeholder {
+    color: #A9BEC9;
+}
+
+.input_block {
+    width: 100%;
+}

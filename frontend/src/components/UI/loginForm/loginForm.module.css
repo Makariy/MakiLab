@@ -1,0 +1,154 @@
+
+
+.login_section {
+    margin: auto;
+    height: 75vh;
+    font-family: 'Source Sans Pro';
+}
+.login_section_container {
+    display: flex;
+    align-items: center;
+}
+.login__inner {
+    width: 450px;
+    background-color: #171717;
+    margin: 60px auto;
+    padding: 40px;
+}
+
+.login__greeting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 2px solid #ad0c6f;
+    margin: 0 20px;
+}
+.login__greeting_title {
+    font-size: 42px;
+    font-weight: bold;
+    font-family: 'Source Sans Pro';
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.login__form {
+    margin-top: 20px;
+}
+
+.login__form_inputs_item_title {
+    font-size: 24px;
+    font-family: 'Source Sans Pro';
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.login__form_inputs_item {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.login__form_inputs_item:first-child {
+    margin-top: 0;
+}
+
+
+.login__form_error {
+    margin-top: 10px;
+}
+.login__form_error_text {
+    color: #A60207;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+.login__form_footer {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login__form_footer_remember {
+    display: flex;
+    align-items: center;
+}
+.login__form_footer_remember_checkbox {
+    width: 20px;
+    height: 20px;
+}
+.login__form_footer_remember_text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFFFFF;
+    margin-left: 7px;
+}
+
+.login__form_footer_restore_password {
+    color: #A9BEC9;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.login__form_submit {
+    margin-top: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__form_submit_button {
+    background-color: #ad0c6f;
+    border-radius: 20px;
+    padding: 10px 75px;
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+
+.login__form_other {
+    color: #FFFFFF;
+    font-size: 16px;
+    text-decoration: underline;
+    margin-top: 15px;
+}
+
+
+@media(max-width: 600px) {
+    .login__inner {
+        width: 275px;
+        padding: 20px;
+    }
+    .login__greeting_title {
+        font-size: 36px;
+        margin-top: 10px;
+    }
+
+    .login__form_inputs_item_title {
+        font-size: 20px;
+    }
+    .login__form_inputs_item input {
+        font-size:  16px;
+    }
+    .login__form_footer_remember_text {
+        font-size: 13px;
+    }
+    .login__form_footer_restore_password {
+        font-size: 13px;
+    }
+    .login__form_submit {
+        margin-top: 20px;
+    }
+    .login__form_submit_button {
+        font-size: 20px;
+        padding: 10px 50px;
+    }
+    .login__form_other {
+        font-size: 14px;
+    }
+}

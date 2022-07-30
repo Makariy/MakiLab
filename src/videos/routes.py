@@ -10,7 +10,7 @@ from sanic.request import Request
 
 
 @bp.route('get_videos/')
-async def get_videos(request):
+async def get_videos_view(request):
     page = request.get_args().get('page') or '1'
     if not page or not page.isdigit():
         return json({

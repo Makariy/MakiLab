@@ -18,14 +18,18 @@ class User(BaseModel):
     password = fields.CharField(max_length=64)
 
     @staticmethod
+    async def hash_password(password: str):
+        return md5(password.encode()).hexdigest()
+
+    @staticmethod
     async def create_user(username: str, password: str):
         return await User.create(
             username=username,
-            password=md5(password.encode()).hexdigest()
+            password=await User.hash_password(password)
         )
 
     async def compare_password(self, password: str):
-        return self.password == md5(password.encode()).hexdigest()
+        return self.password == await User.hash_password(password)
 
     class Meta:
         table = 'auth_user'

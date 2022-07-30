@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from "react";
 import "./video.css";
 
-import Menu from "../components/UI/menu/menu";
+import Menu from "../components/common/menu/menu";
 import Footer from "../components/UI/footer/footer";
 import Loader from "../components/common/loader/loader";
 
@@ -44,20 +44,20 @@ const VideoPage = () => {
         <React.Fragment>
             <Menu />
             <div className="container">
-                <div className="player_section">
                     {
                         video != null ? 
+                        <div className="player_section">
                             <VideoPlayer video={video}/>            
+                            {
+                                otherVideos != null ?
+                                    <VideoList videos={otherVideos} />
+                                        :
+                                    <Loader />
+                            }
+                        </div>
                                 :
                             <Loader />
                     }
-                    {
-                        otherVideos != null ?
-                            <VideoList videos={otherVideos} />
-                                :
-                            <Loader />
-                    }
-                </div>
             </div>
             <Footer />
         </React.Fragment>

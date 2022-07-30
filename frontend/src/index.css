@@ -17,6 +17,10 @@
 	font-family: 'Italianno', cursive;
 */
 
+* {
+	margin: 0;
+	padding: 0;
+}
 
 body {
 	width: 100vw;
@@ -48,10 +52,16 @@ ul {
 	list-style: none;
 }
 
-button {
+input, button {
+	border: none;
 	outline: none;
 }
 
+
+.App {
+	margin: auto;
+	min-height: 100vh;
+}
 
 .container {
 	width: 90%;

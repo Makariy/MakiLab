@@ -1,5 +1,4 @@
 from tortoise.exceptions import DoesNotExist
-
 from videos.models import Video
 
 

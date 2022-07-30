@@ -1,7 +1,9 @@
 .lds_ring {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: auto;
+  min-height: 40vh;
 }
   .lds_ring div {
     box-sizing: border-box;
