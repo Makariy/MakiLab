@@ -1,9 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../../context/auth";
 import classes from "./video.module.css";
 
 
 const Video = ({video}) => {
-
+    const {user} = useContext(AuthContext);
 
     const truncateString = (str, len) => {
         let result = str.substr(0, len);
@@ -26,6 +28,16 @@ const Video = ({video}) => {
                     {truncateString(video.description, 75)}
                 </p>
             </div>
+            {
+                video.watched && user ?
+                    <div className={classes.videos__video_watched}>
+                        <p className={classes.videos__video_watched_text}>
+                            Watched
+                        </p>        
+                    </div>
+                        :
+                    ""
+            }
         </Link>
     );
 }

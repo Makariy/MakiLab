@@ -25,7 +25,6 @@ async def start_session(user: User) -> Session:
         username=user.username,
         user_uuid=user.uuid,
         session_uuid=uuid4(),
-        context={}
     )
     await Cache.set(str(session.session_uuid), session.json())
     return session
