@@ -7,7 +7,7 @@ async def init_database(app: Sanic, loop):
     """Connect tortoise to the database. The function is being called before the server is started"""
     config = app.ctx.config
     models_packages = []
-    for app in ['lib', *app.ctx.config.INSTALLED_APPS]:
+    for app in app.ctx.config.INSTALLED_APPS:
         try:
             importlib.import_module(f'{app}.models')
         except ImportError:

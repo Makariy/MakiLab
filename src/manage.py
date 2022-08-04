@@ -4,7 +4,7 @@ from lib.arg_parser import main_parser, \
     runserver_parser, \
     create_app_parser, \
     test_parser
-from lib.tester import Tester
+from lib.tests.tester import Tester
 from lib.start_new_app import start_new_app
 
 from application import create_app, run_app

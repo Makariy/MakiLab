@@ -9,6 +9,7 @@
 .videos__video {
 	margin-bottom: 45px;
 	width: 300px;
+	position: relative;
 }
 .videos__video_img {
     height: 165px;
@@ -31,4 +32,27 @@
 	font-family: 'Source Sans Pro', sans-serif;  
 	font-size: 15px;
 	margin-top: 5px;
+}
+
+.videos__video_watched {
+	position: absolute;
+	top: 7px;
+	left: auto;
+	right: 15px;
+	width: 35%;
+	padding: 5px 0;
+
+	display:flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: rgba(0, 0, 0, 0.7);
+	border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+	border-bottom: 1.5px solid rgba(255, 255, 255, 0.6);
+}
+.videos__video_watched_text {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: bold;
 }

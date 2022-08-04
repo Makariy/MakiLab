@@ -3,7 +3,7 @@ from uuid import uuid4
 from pydantic import ValidationError
 from typing import Union, Dict
 
-from lib.models import User
+from auth.models import User
 from auth.cache_models import Session
 from lib.cache.cache import Cache
 
@@ -24,7 +24,7 @@ async def start_session(user: User) -> Session:
     session = Session.construct(
         username=user.username,
         user_uuid=user.uuid,
-        session_uuid=uuid4()
+        session_uuid=uuid4(),
     )
     await Cache.set(str(session.session_uuid), session.json())
     return session

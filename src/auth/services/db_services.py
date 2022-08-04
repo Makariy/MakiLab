@@ -1,6 +1,6 @@
 from typing import Union, Tuple
 
-from lib.models import User
+from auth.models import User
 from tortoise.exceptions import DoesNotExist
 
 

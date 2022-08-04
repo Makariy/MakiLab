@@ -17,6 +17,11 @@
 	margin-top: 5px;
 }
 
+.video__video_text_views {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+	margin-top: 5px;
+}
 
 @media (max-width: 700px) {
 	.video__text {

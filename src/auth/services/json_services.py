@@ -1,5 +1,5 @@
 from typing import Dict
-from lib.models import User
+from auth.models import User
 
 
 def render_user(user: User) -> Dict[str, Dict[str, str]]:

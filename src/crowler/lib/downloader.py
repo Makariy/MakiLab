@@ -28,7 +28,7 @@ async def _download_preview(video: Video):
 
 async def _download_video(video: Video, hls: HLS, proxy: Proxy) -> Video:
     from src.videos.models import Video as DBVideo
-    from src.lib.models import User
+    from auth.models import User
     from src.videos.services.db_services import get_video_by_params
 
     downloaded_video = await get_video_by_params(real_url=video.url)
