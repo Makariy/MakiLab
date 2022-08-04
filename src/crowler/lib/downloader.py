@@ -2,21 +2,31 @@ import os
 import ffmpeg
 import aiohttp
 
-from typing import List
+from typing import List, Union
 
 import config
 
-from utils import get_event_loop
 from .proxier import Proxier
 from .video_page_parser import VideoPageParser
 from .models import HLS, Video, Proxy
 from .exceptions import VideoPageHasNoHLSLinkException
+
+from auth.models import User
+from videos.models import Video as DBVideo
+from videos.services.db_services import get_video_by_params
 from videos.services.extern_services import create_preview
 
 
 async def _get_video_hls(video: Video, proxy: Proxy):
     parser = VideoPageParser()
     return await parser.get_video_hls(video, proxy)
+
+
+async def _get_downloaded_video_from_db(video: Video) -> Union[DBVideo, None]:
+    downloaded_video = await get_video_by_params(real_url=video.url)
+    if downloaded_video is not None:
+        return downloaded_video
+    return None
 
 
 async def _download_preview(video: Video):
@@ -26,29 +36,28 @@ async def _download_preview(video: Video):
         return preview
 
 
-async def _download_video(video: Video, hls: HLS, proxy: Proxy) -> Video:
-    from src.videos.models import Video as DBVideo
-    from auth.models import User
-    from src.videos.services.db_services import get_video_by_params
-
-    downloaded_video = await get_video_by_params(real_url=video.url)
-    if downloaded_video is not None:
-        print(f'Already downloaded {video.title}({downloaded_video.file_name})')
-        return downloaded_video
-
-    file_name = video.uuid
-    save_path = os.path.join(config.VIDEO_SAVING_PATH, file_name)
+async def _download_video_data(hls: HLS, output_path: str, proxy: Proxy):
     command = ffmpeg \
         .input(hls.url, http_proxy=str(proxy)) \
-        .output(save_path,
+        .output(output_path,
                 f='mp4', codec='copy', loglevel='error')
-
-    print(f'Downloading video: {video.title} ({video.uuid})')
     command.run()
 
+
+async def _download_video(video: Video, hls: HLS, proxy: Proxy) -> Video:
+    existing_video = await _get_downloaded_video_from_db(video)
+    if existing_video is not None:
+        print(f'Already downloaded {video.title}({existing_video.file_name})')
+        return existing_video
+
+    file_name = video.uuid
+    output_path = os.path.join(config.VIDEO_SAVING_PATH, file_name)
+    print(f'Downloading video: {video.title} ({video.uuid})')
+
+    await _download_video_data(hls, output_path, proxy)
     preview_file_name = await _download_preview(video)
-    author = await User.get(id=1)
-    video = await DBVideo.create(
+    author = await User.first()
+    db_video = await DBVideo.create(
         author=author,
         title=video.title,
         description=video.title + ' description',
@@ -57,21 +66,18 @@ async def _download_video(video: Video, hls: HLS, proxy: Proxy) -> Video:
         views=0,
         real_url=video.url
     )
-    return video
+    print(f'[{video.uuid}] Done')
+    return db_video
 
 
-def download_videos(root: str, videos: List[Video], proxier: Proxier):
-    loop = get_event_loop()
+async def download_videos(root: str, videos: List[Video], proxier: Proxier):
     proxy = proxier.get_proxy()
 
     for video in videos:
         video.url = root + video.url
-
         try:
-            hls = loop.run_until_complete(_get_video_hls(video, proxy))
-            db_video = loop.run_until_complete(_download_video(video, hls, proxy))
-            if db_video:
-                print(f'\tDownloaded video: {video.title}')
+            hls = await _get_video_hls(video, proxy)
+            db_video = await _download_video(video, hls, proxy)
 
         except ffmpeg.Error:
             proxier.add_used_proxy(proxy)

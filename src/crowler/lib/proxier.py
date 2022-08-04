@@ -1,18 +1,29 @@
 import json
 import requests
+from abc import ABC, abstractmethod
 from typing import List, Dict
 
 from .models import Proxy
 from .exceptions import NoMoreProxiesException
 
 
-class FreeProxier:
+class Proxier(ABC):
+    @abstractmethod
+    def get_proxy(self) -> Proxy:
+        pass
+
+    @abstractmethod
+    def add_used_proxy(self, proxy: Proxy):
+        pass
+
+
+class FreeProxier(Proxier):
     def __init__(self, url='https://www.proxy-list.download/api/v1/get?type=http'):
         self.url = url
         self.used_proxies = []
-        self.proxies = self.make_proxies()
+        self.proxies = self._make_proxies()
 
-    def make_proxies(self) -> List[Proxy]:
+    def _make_proxies(self) -> List[Proxy]:
         proxies = []
 
         response = requests.get(self.url)
@@ -33,18 +44,18 @@ class FreeProxier:
 
     def get_proxy(self) -> Proxy:
         if len(self.proxies) == 0:
-            self.make_proxies()
+            self._make_proxies()
             if not self.proxies:
                 raise NoMoreProxiesException()
             return self.get_proxy()
         return self.proxies[0]
 
 
-class Proxier:
+class GeonodeProxier(Proxier):
     def __init__(self, url='https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=speed&sort_type=desc'):
         self.url = url
         self.used_proxies = []
-        self.proxies = self.make_proxies()
+        self.proxies = self._make_proxies()
 
     def _make_proxies_from_data(self, data: Dict[str, List[Dict[str, str]]]) -> List[Proxy]:
         proxies = []
@@ -58,7 +69,7 @@ class Proxier:
                 proxies.append(proxy)
         return proxies
 
-    def make_proxies(self):
+    def _make_proxies(self):
         response = requests.get(self.url)
         data = json.loads(response.text)
         return self._make_proxies_from_data(data)
@@ -69,7 +80,7 @@ class Proxier:
 
     def get_proxy(self) -> Proxy:
         if len(self.proxies) == 0:
-            self.make_proxies()
+            self._make_proxies()
             if not self.proxies:
                 raise NoMoreProxiesException()
             return self.get_proxy()

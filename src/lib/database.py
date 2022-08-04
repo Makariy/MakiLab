@@ -3,7 +3,7 @@ from sanic import Sanic
 import tortoise
 
 
-async def init_database(app: Sanic, loop):
+async def init_database(app: Sanic, *args, **kwargs):
     """Connect tortoise to the database. The function is being called before the server is started"""
     config = app.ctx.config
     models_packages = []
