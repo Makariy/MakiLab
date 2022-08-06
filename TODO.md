@@ -3,14 +3,15 @@
 ### Search
  - [ ] Add search 
  - [ ] Add filters on search 
+ - [ ] Add ordering on search
 
 ### Categories
- - [ ] Add categories 
+ - [ ] Add categories  
 
 ### KHM Section
- - [ ] Add SHM section 
- - [ ] Filter videos from normal to KHM 
- - [ ] Insult KHM section users
+ - [ ] Add KHM section 
+ - [ ] Filter videos between normal and KHM 
+ - [ ] Insult KHM section users 
 
 ### Video attributes
  - [ ] Categories
