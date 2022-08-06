@@ -11,7 +11,7 @@ def start_new_app(app_name, config):
 
     os.mkdir(app_dir)
     models = open(os.path.join(app_dir, 'models.py'), 'w')
-    tests = open(os.path.join(app_dir, 'tests.py'), 'w')
+    tests = open(os.path.join(app_dir, 'test.py'), 'w')
 
     app = open(os.path.join(app_dir, 'app.py'), 'w')
     app.write(f'\ndef get_blueprint():\n\tfrom .routes import bp\n\tbp.url_prefix = "{app_name}"\n\treturn bp\n')

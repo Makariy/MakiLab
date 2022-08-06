@@ -1,8 +1,8 @@
-from typing import Dict
+from typing import Dict, Literal
 from auth.models import User
 
 
-def render_user(user: User) -> Dict[str, Dict[str, str]]:
+async def render_user(user: User) -> Dict[Literal['user'], Dict[str, str]]:
     return {
         'user': {
             'username': user.username,

@@ -12,6 +12,7 @@ async def get_user_by_params(**kwargs) -> Union[User, None]:
 
 
 async def create_user(username: str, password: str) -> Tuple[User, Union[str, None]]:
+    """Creates a user and returns a user and an error if there is one"""
     return await User.create_user(username=username, password=password), None
 
 

@@ -1,7 +1,7 @@
 import uuid
-from lib.test import TestCase
+from lib.tests import TestCase
 from auth.models import User
-from .models import Video
+from videos.models import Video
 
 from src.videos.services.db_services import get_video_by_params
 from src.videos.services.db_services import get_videos

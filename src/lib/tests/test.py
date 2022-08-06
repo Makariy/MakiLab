@@ -50,12 +50,25 @@ class TestCase:
         for key in dict1:
             if key not in dict2:
                 raise TestFailedException((kwargs.get('msg') or '') +
-                                            f'\nError during assertDictEqual: {dict1} and {dict2} '
-                                            f'dict1.keys() does not contain all dict2.keys()')
+                                            f'\nError during assertDictEqual: {dict1} and {dict2}\n'
+                                            f'dict2 does not contain "{key}", which is present in dict1')
+            if type(dict1[key]) is dict:
+                self.assertDictEqual(dict1[key], dict2[key])
 
+        for key in dict2:
+            if key not in dict1:
+                raise TestFailedException((kwargs.get('msg') or '') +
+                                          f'\nError during assertDictEqual: {dict2} and {dict1}\n'
+                                          f'dict1 does not contain "{key}", which is present in dict2')
+            if type(dict2[key]) is dict:
+                self.assertDictEqual(dict2[key], dict1[key])
+
+        keys = {*dict1.keys(), *dict2.keys()}
+        for key in keys:
             if dict1[key] != dict2[key]:
                 raise TestFailedException((kwargs.get('msg') or '') +
-                                            f'\nError during assertDictEqual: {dict1} and {dict2} '
-                                            f'dict1[{key}] != dict2[{key}], '
-                                            f'{dict1[key]} != {dict2[key]}')
+                                          f'\nError during assertDictEqual: {dict1} and {dict2}\n'
+                                          f'dict1["{key}"] != dict2["{key}"],\n'
+                                          f'{dict1[key]} != {dict2[key]}')
+
 

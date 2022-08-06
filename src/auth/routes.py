@@ -43,7 +43,7 @@ async def login_view(request: Request):
         })
     response = json({
         "status": "success",
-        **render_user(user)
+        **(await render_user(user))
     })
     await login(response, user)
     return response
@@ -66,7 +66,7 @@ async def signup_view(request: Request):
         })
     response = json({
         "status": "success",
-        **render_user(user)
+        **(await render_user(user))
     })
     await login(response, user)
     return response

@@ -1,8 +1,8 @@
-from typing import List, Dict  # type
+from typing import List, Dict, Literal
 from videos.models import Video  # type
 
 
-async def render_video(video: Video) -> Dict[str, Dict[str, str]]:
+async def render_video(video: Video) -> Dict[Literal['video'], Dict[str, str]]:
     return {
         'video': {
             'title': video.title,
@@ -17,7 +17,7 @@ async def render_video(video: Video) -> Dict[str, Dict[str, str]]:
     }
 
 
-async def render_videos(videos: List[Video]) -> Dict[str, List[Dict[str, Dict[str, str]]]]:
+async def render_videos(videos: List[Video]) -> Dict[Literal['videos'], List[Dict[Literal['video'], Dict[str, str]]]]:
     return {
         'videos': [await render_video(video) for video in videos]
     }

@@ -30,7 +30,6 @@ idna==3.3
 importlib-metadata==4.8.2
 iniconfig==1.1.1
 iso8601==0.1.16
-Jinja2==3.0.3
 MarkupSafe==2.0.1
 multidict==5.2.0
 packaging==21.3
@@ -51,6 +50,8 @@ sanic-routing==0.7.2
 sanic-session==0.8.0
 sanic-testing==0.8.2
 sniffio==1.2.0
+tomli==2.0.1
+tomlkit==0.11.0
 soupsieve==2.3.1
 SQLAlchemy==1.4.39
 toml==0.10.2
