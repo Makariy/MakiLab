@@ -1,3 +1,4 @@
+from typing import List, Union
 from dataclasses import dataclass
 
 from .test import TestFailedException
@@ -9,12 +10,27 @@ class TestError:
     error: TestFailedException
 
 
+@dataclass
+class TestSuccess:
+    name: str
+
+
 class TestQueue:
     def __init__(self):
-        self.errors_queue = []
+        self.queue: List[Union[TestError, TestSuccess]] = []
 
     def add_error(self, name: str, error: TestFailedException):
-        self.errors_queue.append(TestError(name, error))
+        self.queue.append(TestError(name, error))
 
-    def get_errors(self):
-        return self.errors_queue
+    def add_success(self, name: str):
+        self.queue.append(TestSuccess(name))
+
+    def get_errors(self) -> List[TestError]:
+        return list(filter(lambda a: type(a) is TestError, self.queue))
+
+    def get_success(self) -> List[TestSuccess]:
+        return list(filter(lambda a: type(a) is TestSuccess, self.queue))
+
+    def get_queue(self) -> List[Union[TestSuccess, TestError]]:
+        return self.queue
+

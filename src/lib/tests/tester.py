@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 import importlib
 import inspect
@@ -54,7 +54,7 @@ class Tester:
                 if func_name.startswith('test_') and asyncio.iscoroutinefunction(func):
                     try:
                         await self._run_test(func)
-                        self.test_logger.log_test_function_done_great(func_name)
+                        test_queue.add_success(func_name)
                     except TestFailedException as e:
                         test_queue.add_error(func_name, e)
                     except Exception as e:
@@ -65,12 +65,12 @@ class Tester:
         self.test_logger.log_test_function_results(test_queue)
         return test_queue
 
-    async def _run_module_test_classes(self, module_name: str) -> List[TestQueue]:
+    async def _run_module_test_classes(self, module_name: str) -> Dict[str, TestQueue]:
         """Runs all the module test classes"""
-        test_queues = []
+        test_queues = {}
         for test_class in self._get_module_classes_by_base_class(module_name, TestCase):
             test_queue = await self._run_class_tests(test_class)
-            test_queues.append(test_queue)
+            test_queues[test_class.__name__] = test_queue
             self.test_logger.log_class_results(test_class.__name__, test_queue)
 
         return test_queues
@@ -80,8 +80,8 @@ class Tester:
         try:
             for app in self.config.INSTALLED_APPS:
                 try:
-                    test_queues = await self._run_module_test_classes(app + '.test')
-                    self.test_logger.log_module_results(app, test_queues)
+                    test_results = await self._run_module_test_classes(app + '.test')
+                    self.test_logger.log_module_results(app, test_results)
                 except Exception as e:
                     self.test_logger.log_module_exception(app, e)
         finally:

@@ -1,7 +1,5 @@
-from utils.utils import singleton
-from sanic import Sanic
 import aiohttp
-from typing import Dict, Union
+from typing import Dict
 
 
 class TestFailedException(Exception):
