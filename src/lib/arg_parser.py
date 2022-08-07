@@ -11,7 +11,8 @@ create_app_parser.add_argument('title', type=str, help='Specify the title of cre
 create_app_parser.add_argument('-d', type=str, help='Specify the directory of the creating application')
 
 test_parser = argparse.ArgumentParser(description='Run tests', add_help=True)
-
+test_parser.add_argument('-H', type=str, help='Specify the host to run the test server')
+test_parser.add_argument('-p', type=int, help='Specify the port to run the test server')
 
 main_parser = argparse.ArgumentParser(description='Manage.py deployment tool')
 main_parser.add_argument('file', type=str, help='Executive file')

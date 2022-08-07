@@ -16,3 +16,12 @@ class TestJsonServices(TestCase):
             }
         }
         self.assertDictEqual(rendered_user, (await render_user(self.user)))
+
+    async def test_request_login_view(self):
+        client = self.get_client()
+        async with client.create_session() as session:
+            response = await client.post(session, "auth/login/", data={
+                "username": "TestUser",
+                "password": "TestUserPassword"
+            })
+            self.assertEquals(response.status, 200)

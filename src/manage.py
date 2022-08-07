@@ -8,9 +8,9 @@ from lib.tests.tester import Tester
 from lib.start_new_app import start_new_app
 
 from application import create_app, run_app
-import config 
-
 from crowler.crowl import crowl
+
+import config
 
 
 def main(args):
@@ -38,9 +38,8 @@ def main(args):
 
         args = test_parser.parse_args(extra)
 
-        app = create_app(config)
         tester = Tester()
-        tester.run(app, config, args)
+        tester.run(config, args)
 
     elif args.command == 'createapp':
         if 'help' in extra:

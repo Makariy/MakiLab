@@ -28,13 +28,13 @@ def _init_app(app, config):
     _register_blueprints(app, config)
 
 
-def create_app(config):
+def create_app(config, **kwargs):
     """Creates and initializes the sanic application"""
-    app = Sanic(os.environ.get('SANIC_APP_NAME'))
+    app = Sanic(os.environ.get('SANIC_APP_NAME'), **kwargs)
     _init_app(app, config)
     return app
 
 
-def run_app(app, host='localhost', port=8000, workers=1):
+def run_app(app, host='localhost', port=8000, workers=1, **kwargs):
     """Runs the application"""
-    app.run(host=host, port=port, workers=workers)
+    app.run(host=host, port=port, workers=workers, **kwargs)

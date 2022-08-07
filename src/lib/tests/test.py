@@ -1,13 +1,36 @@
+from utils.utils import singleton
+from sanic import Sanic
+import aiohttp
+from typing import Dict, Union
+
 
 class TestFailedException(Exception):
     def __init__(self, msg=''):
         super().__init__(msg)
 
 
+class TestClient:
+    def __init__(self, config):
+        self.host = f"{config.HOST}:{config.PORT}"
+
+    def create_session(self) -> aiohttp.ClientSession:
+        return aiohttp.ClientSession()
+
+    async def get(self, session: aiohttp.ClientSession, path: str) -> aiohttp.ClientResponse:
+        response = await session.get(f"http://{self.host}/{path}")
+        return response
+
+    async def post(self, session: aiohttp.ClientSession, path: str, data: Dict) -> aiohttp.ClientResponse:
+        response = await session.post(f"http://{self.host}/{path}", data=data)
+        return response
+
+
 class TestCase:
     def __init__(self, app):
         self.app = app
-        self.client = app.asgi_client
+
+    def get_client(self):
+        return TestClient(self.app.ctx.config)
 
     async def setUp(self):
         """Initialize all the class variables"""
