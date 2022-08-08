@@ -21,7 +21,6 @@ const Menu = ({query, setQuery}) => {
         () => {
             setIsMenuActive(false)
             setIsSearchActive(false)
-            setQuery("")
         }, [location]
     )
 
