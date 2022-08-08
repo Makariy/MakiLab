@@ -1,20 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import MenuLinks from "./menuLinks/menuLinks";
 import MenuLogo from "./menuLogo/menuLogo";
 import MenuProfile from "./menuProfile/menuProfile";
 import MenuHide from "./menuHide/menuHide";
 
 import classes from "./menu.module.css";
+import MenuSearch from "./menuSearch/menuSearch";
 
 
-const Menu = () => {
+const Menu = ({query, setQuery}) => {
 
-    const [user, setUser] = useState(null);
     const [isMenuActive, setIsMenuActive] = useState(false);
+    const [isSearchActive, setIsSearchActive] = useState(false);
+    let _isMenuActive = isMenuActive;
 
-    const onMenuHideClicked = () => 
+    const location = useLocation()
+
+    useEffect(
+        () => {
+            setIsMenuActive(false)
+            setIsSearchActive(false)
+            setQuery("")
+        }, [location]
+    )
+
+    const onMenuHideClicked = () => {
         setIsMenuActive(!isMenuActive)
-    
+        _isMenuActive = !isMenuActive
+        let body_element = document.getElementsByTagName('body')[0];
+
+        if (_isMenuActive)
+            body_element.style['overflow-y'] = 'hidden'
+        else 
+            body_element.style['overflow-y'] = 'auto'
+
+    }
+
+    const onShowSearchClicked = () => {
+        setIsSearchActive(!isSearchActive);
+    }
+
 
     return (
         <React.Fragment>
@@ -23,8 +49,14 @@ const Menu = () => {
                     <div className={classes.menu}>
                         <MenuLogo />
                         <MenuLinks />
-                        <MenuProfile />
-
+                        <div className={classes.menu_section__profile_and_search}>
+                            <MenuProfile />
+                            <MenuSearch query={query} 
+                                setQuery={setQuery} 
+                                isActive={isSearchActive}
+                                setIsActive={setIsSearchActive}    
+                            />
+                        </div>
                         <MenuHide onMenuHideClicked={onMenuHideClicked} />
                     </div>
                 </div>

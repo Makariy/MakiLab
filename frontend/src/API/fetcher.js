@@ -25,3 +25,10 @@ export const fetchVideo = (video_uuid) => {
         .then(response => response.data).then(checkErrors);
 }
 
+export const searchVideos = (query) => {
+    let url_params = new URLSearchParams({
+        query: query
+    })
+    return axios.get("/api/videos/search/?" + url_params.toString())
+        .then(response => response.data).then(checkErrors);
+}
