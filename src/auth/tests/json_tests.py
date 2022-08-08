@@ -24,4 +24,4 @@ class TestJsonServices(TestCase):
                 "username": "TestUser",
                 "password": "TestUserPassword"
             })
-            self.assertEquals(response.status, 201)
+            self.assertEquals(response.status, 200)

@@ -1,5 +1,6 @@
 import aiohttp
 from typing import Dict
+from sanic import Sanic  # type
 
 
 class TestFailedException(Exception):
@@ -8,7 +9,8 @@ class TestFailedException(Exception):
 
 
 class TestClient:
-    def __init__(self, config):
+    def __init__(self, app: Sanic, config):
+        self.app = app
         self.host = f"{config.HOST}:{config.PORT}"
 
     def create_session(self) -> aiohttp.ClientSession:
@@ -18,7 +20,7 @@ class TestClient:
         response = await session.get(f"http://{self.host}/{path}")
         return response
 
-    async def post(self, session: aiohttp.ClientSession, path: str, data: Dict) -> aiohttp.ClientResponse:
+    async def post(self, session: aiohttp.ClientSession, path: str, data: Dict = {}) -> aiohttp.ClientResponse:
         response = await session.post(f"http://{self.host}/{path}", data=data)
         return response
 
@@ -28,7 +30,7 @@ class TestCase:
         self.app = app
 
     def get_client(self):
-        return TestClient(self.app.ctx.config)
+        return TestClient(self.app, self.app.ctx.config)
 
     async def setUp(self):
         """Initialize all the class variables"""
