@@ -44,6 +44,40 @@ async def get_videos_view(request):
     })
 
 
+@bp.route("search/")
+@attach_session
+async def search_videos_view(request: Request, *args, **kwargs):
+    page = request.args.get("page")
+    if page is None or not page.isdigit():
+        page = 1
+
+    query = request.args.get("query")
+    if query is None:
+        query = ""
+
+    videos = await search_videos(query=query, prefetch_author=True)
+    if not videos:
+        return json({
+            'status': 'fail',
+            'error': 'could not get videos'
+        })
+
+    rendered = await render_videos(videos)
+    if not rendered:
+        return json({
+            'status': 'fail',
+            'error': 'could not render videos'
+        })
+
+    if request.ctx.user and request.ctx.session:
+        rendered = await add_is_videos_watched(rendered, request.ctx.user, request.ctx.session)
+
+    return json({
+        'status': 'success',
+        **rendered
+    })
+
+
 @bp.route('video/')
 @attach_session
 async def video_view(request: Request):

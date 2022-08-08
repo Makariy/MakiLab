@@ -14,12 +14,20 @@
 }
 .menu {
 	height: 60px;
-	display: flex;
-    justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-around;
     text-transform: uppercase;
     font-weight: bold;
 	font-family: 'Source Sans Pro';
 }
+
+.menu_section__profile_and_search {
+	display: flex;
+	align-items: center;
+	justify-content: right;
+}
+
 
 @media (max-width: 600px) {
 	.menu_section {
@@ -33,10 +41,17 @@
 	.menu_section.active {
 		left: 0;
 	}
+
 	.menu {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		flex-direction: column;
 		height: 80%;
 		margin-top: 5%;
+	}
+	.menu_section__profile_and_search {
+		justify-content: center;
 	}
 
 	.mobile_menu_section {

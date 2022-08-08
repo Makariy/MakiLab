@@ -1,7 +1,7 @@
 # TODO list: 
 
 ### Search
- - [ ] Add search 
+ - [x] Add search 
  - [ ] Add filters on search 
 
 ### Categories

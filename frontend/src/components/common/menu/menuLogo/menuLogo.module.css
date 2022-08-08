@@ -3,7 +3,7 @@
 .menu__logo {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: left;
 }
 .menu__logo_link {
 	text-transform: none;
@@ -22,6 +22,9 @@
 
 
 @media(max-width: 600px) {
+	.menu__logo {
+		justify-content: center;
+	}
 	.menu__logo_link {
 		font-size: 40px;
 	}
