@@ -52,6 +52,8 @@
 	}
 	.menu_section__profile_and_search {
 		justify-content: center;
+		flex-direction: column;
+		gap: 7px;
 	}
 
 	.mobile_menu_section {

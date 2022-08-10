@@ -1,5 +1,6 @@
 import React, {  useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import SearchContext from "../context/search";
 
 import Menu from '../components/common/menu/menu';
 import Footer from "../components/UI/footer/footer";
@@ -16,6 +17,8 @@ const HomePage = () => {
     const [videos, setVideos] = useState(null);
     const [isLastPage, setIsLastPage] = useState(false);
     const [query, setQuery] = useState("");
+    const [isSearchActive, setIsSearchActive] = useState(false);
+
     const location = useLocation()
 
 
@@ -41,17 +44,25 @@ const HomePage = () => {
 
     return (
         <React.Fragment>
-            <Menu query={query} setQuery={setQuery}/>
-            {
-                videos ? 
-                    <VideoList videos={videos}/>
-                        :
-                    <div style={{marginTop: "10vh", height: "40vh"}} className={"container"}>
-                        <Loader />
-                    </div>
-            }
-            <VideoPageSelector page={page} isLastPage={isLastPage}/>
-            <Footer />
+            <SearchContext.Provider value={{
+                query: query,
+                setQuery: setQuery,
+
+                isSearchActive: isSearchActive,
+                setIsSearchActive: setIsSearchActive
+            }}>
+                <Menu />
+                {
+                    videos ? 
+                        <VideoList videos={videos}/>
+                            :
+                        <div style={{marginTop: "10vh", height: "40vh"}} className={"container"}>
+                            <Loader />
+                        </div>
+                }
+                <VideoPageSelector page={page} isLastPage={isLastPage}/>
+                <Footer />
+            </SearchContext.Provider>
         </React.Fragment>
     );
 }

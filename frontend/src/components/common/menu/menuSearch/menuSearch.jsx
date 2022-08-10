@@ -1,38 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./menuSearch.module.css";
 import Input from "../../../common/UI/input/input";
+import SearchContext from "../../../../context/search";
+import MenuContext from "../../../../context/menu";
 
 
-const MenuSearch = ({query, setQuery, isActive, setIsActive}) => {
+const MenuSearch = () => {
     const query_ref = React.createRef();
-
+    const {setIsMenuActive} = useContext(MenuContext)
+    const {query, setQuery, isSearchActive, setIsSearchActive} = useContext(SearchContext);
 
     const onSearchButtonClicked = (e) => {
-        if (isActive) {
+        if (isSearchActive) {
             onSearch(e)
         }
         else {
-            setIsActive(true)
+            setIsSearchActive(true)
         }
     }
 
     const stopSearch = (e) => {
         e.preventDefault()
-        setIsActive(false)
+        query_ref.current.value = ""
+        setQuery("")
+        setIsSearchActive(false)
+        setIsMenuActive(false)
     }
 
     const onSearch = (e) => {
         e.preventDefault();
+        console.log("Searching")
         let input = query_ref.current.value;
         setQuery(input);
+        setIsMenuActive(false); 
     }
 
     return (
         <div className={classes.menu_search}>
-            <form className={[classes.menu_search__form, isActive ? classes.active : ""].join(' ')}>
+            <form className={[classes.menu_search__form, isSearchActive ? classes.active : ""].join(' ')}>
                 <div className={classes.menu_search__input}>
                     <Input ref={query_ref}/>
-                    <button onClick={stopSearch} className={classes.menu_search__close_search}>
+                    <button onClick={stopSearch} type="button" className={classes.menu_search__close_search}>
                         x
                     </button>
                 </div>
